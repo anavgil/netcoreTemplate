@@ -1,22 +1,30 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netcoreTemplate.api", "netcoreTemplate.api\netcoreTemplate.api.csproj", "{9BB59688-BA7C-4DAC-955F-0A4D18508795}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netcoreTemplate.Api", "netcoreTemplate.api\netcoreTemplate.Api.csproj", "{9BB59688-BA7C-4DAC-955F-0A4D18508795}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netcoreTemplate.Application", "netcoreTemplate.application\netcoreTemplate.Application.csproj", "{CE47322A-29DF-47BD-BD65-2808C6368789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9BB59688-BA7C-4DAC-955F-0A4D18508795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9BB59688-BA7C-4DAC-955F-0A4D18508795}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BB59688-BA7C-4DAC-955F-0A4D18508795}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BB59688-BA7C-4DAC-955F-0A4D18508795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE47322A-29DF-47BD-BD65-2808C6368789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE47322A-29DF-47BD-BD65-2808C6368789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE47322A-29DF-47BD-BD65-2808C6368789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE47322A-29DF-47BD-BD65-2808C6368789}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5291E275-DD2F-4694-8B90-BF76C06D8EA7}
 	EndGlobalSection
 EndGlobal
