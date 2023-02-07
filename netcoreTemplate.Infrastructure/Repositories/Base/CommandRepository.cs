@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace netcoreTemplate.Infrastructure.Repositories
+namespace netcoreTemplate.Infrastructure.Repositories.Base
 {
     public class CommandRepository<T> : ICommandRepository<T> where T : class
     {
