@@ -11,6 +11,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netcoreTemplate.application\netcoreTemplate.application.csproj" />
+    <ProjectReference Include="..\netcoreTemplate.application\netcoreTemplate.Application.csproj" />
   </ItemGroup>
 </Project>
