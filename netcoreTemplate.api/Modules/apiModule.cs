@@ -1,6 +1,8 @@
 using Carter;
+using Carter.ModelBinding;
 using MediatR;
 using netcoreTemplate.application.CQRS.Querys;
+using System.Net;
 
 namespace netcoreTemplate.api.Modules;
 
@@ -16,8 +18,18 @@ public class apiModule : ICarterModule
 
         app.MapGet("/{id}", async (HttpContext _, string id, IMediator mediator, CancellationToken ct) =>
         {
-            var request = new TestQueryParamRequestRequest(Guid.Parse(id));
-            await mediator.Send(request, ct);
+            if (string.IsNullOrWhiteSpace(id))
+                return Results.BadRequest();
+
+            if(!Guid.TryParse(id, out var id2))
+            {
+                return Results.BadRequest();
+            }
+
+            var request = new TestQueryParamRequestRequest(id2);
+            var result = await mediator.Send(request, ct);
+
+            return Results.Ok(result);
         });
     }
 }
