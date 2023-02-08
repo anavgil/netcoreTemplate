@@ -13,6 +13,7 @@
     <ProjectReference Include="..\netcoreTemplate.Domain\netcoreTemplate.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CQRS\Commands\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>
