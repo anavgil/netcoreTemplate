@@ -7,8 +7,6 @@ public class TestQueryParamRequestRequest : IRequest<IReadOnlyCollection<TestQue
     public Guid Id { get; private set; }
 
     public TestQueryParamRequestRequest(Guid id) => this.Id = id;
-
-
 }
 
 
