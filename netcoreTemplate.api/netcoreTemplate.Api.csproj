@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\netcoreTemplate.application\netcoreTemplate.Application.csproj" />
+    <ProjectReference Include="..\netcoreTemplate.Infrastructure\netcoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
