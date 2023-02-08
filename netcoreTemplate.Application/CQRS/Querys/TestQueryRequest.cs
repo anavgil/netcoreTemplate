@@ -2,7 +2,7 @@ using MediatR;
 
 namespace netcoreTemplate.application.CQRS.Querys;
 
-public class TestQueryRequestRequest:IRequest<IReadOnlyCollection<TestQueryModel>>
+public class TestQueryRequestRequest : IRequest<IReadOnlyCollection<TestQueryModel>>
 {
 }
 

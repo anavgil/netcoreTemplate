@@ -1,7 +1,6 @@
-using System.Reflection;
 using Carter;
-using MediatR;
 using netcoreTemplate.application;
+using netcoreTemplate.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
