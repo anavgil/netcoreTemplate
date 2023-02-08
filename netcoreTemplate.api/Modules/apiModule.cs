@@ -11,7 +11,7 @@ public class apiModule : ICarterModule
         app.MapGet("/", async (HttpContext _, IMediator mediator, CancellationToken ct) =>
         {
 
-            await mediator.Send(new { }, ct);
+            await mediator.Send(new TestQueryRequestRequest(), ct);
         });
 
         app.MapGet("/{id}", async (HttpContext _, string id, IMediator mediator, CancellationToken ct) =>
