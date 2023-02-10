@@ -12,8 +12,9 @@ public class TestQueryParamRequestRequest : IRequest<IReadOnlyCollection<TestQue
 
 public class TestQueryParamRequestHandler : IRequestHandler<TestQueryParamRequestRequest, IReadOnlyCollection<TestQueryModel>>
 {
-    public Task<IReadOnlyCollection<TestQueryModel>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<TestQueryModel>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        TestQueryModel item = new() { Id=request.Id};
+        return await Task.FromResult(new List<TestQueryModel> { item });
     }
 }

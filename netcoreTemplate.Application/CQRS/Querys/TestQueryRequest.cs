@@ -1,4 +1,5 @@
 using MediatR;
+using System.Collections.ObjectModel;
 
 namespace netcoreTemplate.application.CQRS.Querys;
 
@@ -8,8 +9,8 @@ public class TestQueryRequestRequest : IRequest<IReadOnlyCollection<TestQueryMod
 
 public class TestQueryRequestHandler : IRequestHandler<TestQueryRequestRequest, IReadOnlyCollection<TestQueryModel>>
 {
-    public Task<IReadOnlyCollection<TestQueryModel>> Handle(TestQueryRequestRequest request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<TestQueryModel>> Handle(TestQueryRequestRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await Task.FromResult(new Collection<TestQueryModel>());
     }
 }
