@@ -11,7 +11,10 @@ public static class DependencvyInjectionExtension
     {
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        //services.(Assembly.GetExecutingAssembly());
+        services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         return services;
     }
