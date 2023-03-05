@@ -1,4 +1,5 @@
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -10,10 +11,7 @@ public static class DependencvyInjectionExtension
     {
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddMediatR(conf=> {
-            conf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            }
-        );
+        //services.(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         return services;
     }
