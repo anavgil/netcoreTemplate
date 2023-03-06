@@ -1,4 +1,5 @@
 using Carter;
+using JwtAuthenticationPackage;
 using netcoreTemplate.application;
 using netcoreTemplate.Infrastructure;
 
@@ -14,6 +15,7 @@ builder.Services.AddCarter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.RegisterJwtAuthentication(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
