@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using netcoreTemplate.Domain.Interfaces;
+using netcoreTemplate.Infrastructure.Repositories.Base;
 
 namespace netcoreTemplate.Infrastructure
 {
@@ -9,6 +11,7 @@ namespace netcoreTemplate.Infrastructure
         {
 
             services.AddHttpClient();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
             return services;
         }
     }
