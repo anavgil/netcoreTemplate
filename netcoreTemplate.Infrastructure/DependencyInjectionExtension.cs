@@ -4,7 +4,7 @@ using netcoreTemplate.Infrastructure.Repositories.Base;
 
 namespace netcoreTemplate.Infrastructure
 {
-    public static class DependyInjectionExtension
+    public static class DependencyInjectionExtension
     {
 
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
