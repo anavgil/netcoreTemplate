@@ -1,6 +1,4 @@
 using Carter;
-using JwtAuthenticationPackage;
-using Microsoft.AspNetCore.Hosting.Builder;
 using netcoreTemplate.application;
 using netcoreTemplate.Infrastructure;
 
@@ -9,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //builder.Services.AddControllers();
-builder.Services.RegisterJwtAuthentication(builder.Configuration);
+//builder.Services.RegisterJwtAuthentication(builder.Configuration);
 builder.Services.AddCarter();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
