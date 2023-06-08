@@ -1,4 +1,5 @@
-﻿using netcoreTemplate.Domain.Interfaces;
+﻿using netcoreTemplate.Application.Interfaces;
+using netcoreTemplate.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

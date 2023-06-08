@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace netcoreTemplate.Domain.Interfaces
+namespace netcoreTemplate.Application.Interfaces;
+public interface IApplicationContext : IDisposable
 {
-    public interface IApplicationContext:IDisposable
-    {
-    }
 }
