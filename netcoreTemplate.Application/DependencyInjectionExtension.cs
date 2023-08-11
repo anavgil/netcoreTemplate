@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace netcoreTemplate.application;
 
-public static class DependencvyInjectionExtension
+public static class DependencyInjectionExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
