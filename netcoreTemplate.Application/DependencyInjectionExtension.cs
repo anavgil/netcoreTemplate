@@ -9,7 +9,6 @@ public static class DependencyInjectionExtension
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
 
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddMediatR(configuration =>
         {

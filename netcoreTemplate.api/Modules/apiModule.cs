@@ -1,12 +1,10 @@
 using Carter;
-using Carter.ModelBinding;
 using MediatR;
 using netcoreTemplate.application.CQRS.Querys;
-using System.Net;
 
 namespace netcoreTemplate.api.Modules;
 
-public class apiModule : ICarterModule
+public class ApiModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -21,7 +19,7 @@ public class apiModule : ICarterModule
             if (string.IsNullOrWhiteSpace(id))
                 return Results.BadRequest();
 
-            if(!Guid.TryParse(id, out var id2))
+            if (!Guid.TryParse(id, out var id2))
             {
                 return Results.BadRequest();
             }
