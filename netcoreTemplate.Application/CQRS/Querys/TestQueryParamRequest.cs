@@ -14,7 +14,7 @@ public class TestQueryParamRequestHandler : IRequestHandler<TestQueryParamReques
 {
     public async Task<IReadOnlyCollection<TestQueryModel>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {
-        TestQueryModel item = new() { Id=request.Id};
+        TestQueryModel item = new() { Id = request.Id };
         return await Task.FromResult(new List<TestQueryModel> { item });
     }
 }
