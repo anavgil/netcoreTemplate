@@ -1,7 +1,7 @@
 using MediatR;
 using System.Collections.ObjectModel;
 
-namespace netcoreTemplate.application.CQRS.Querys;
+namespace netcoreTemplate.Application.Features.Feature1.CQRS.Querys;
 
 public class TestQueryRequestRequest : IRequest<IReadOnlyCollection<TestQueryModel>>
 {

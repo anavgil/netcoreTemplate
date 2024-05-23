@@ -1,4 +1,4 @@
-namespace netcoreTemplate.application.CQRS.Querys;
+namespace netcoreTemplate.Application.Features.Feature1.CQRS.Querys;
 
 public class TestQueryModel
 {

@@ -1,12 +1,12 @@
 using MediatR;
 
-namespace netcoreTemplate.application.CQRS.Querys;
+namespace netcoreTemplate.Application.Features.Feature1.CQRS.Querys;
 
 public class TestQueryParamRequestRequest : IRequest<IReadOnlyCollection<TestQueryModel>>
 {
     public Guid Id { get; private set; }
 
-    public TestQueryParamRequestRequest(Guid id) => this.Id = id;
+    public TestQueryParamRequestRequest(Guid id) => Id = id;
 }
 
 

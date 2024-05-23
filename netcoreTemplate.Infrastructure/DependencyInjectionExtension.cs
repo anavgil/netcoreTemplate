@@ -1,32 +1,32 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EntityFrameworkCore.UnitOfWork.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using netcoreTemplate.Domain.Interfaces;
 using netcoreTemplate.Infrastructure.Persistence.Identity;
 using netcoreTemplate.Infrastructure.Persistence.Identity.Model;
-using netcoreTemplate.Infrastructure.Repositories.Base;
+
 using System.Reflection;
 
-namespace netcoreTemplate.Infrastructure
+namespace netcoreTemplate.Infrastructure;
+
+public static class DependencyInjectionExtension
 {
-    public static class DependencyInjectionExtension
+
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        services.AddSqlite<IdentityContext>(configuration.GetConnectionString("Default"), options =>
         {
-            services.AddSqlite<IdentityContext>(configuration.GetConnectionString("Default"), options =>
-            {
-                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-            })
-            .AddIdentityCore<User>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<IdentityContext>();
+            options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+        })
+        .AddIdentityCore<User>()
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<IdentityContext>();
 
-            services.AddHttpClient();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddHttpClient();
+        services.AddUnitOfWork<IdentityContext>();
+        //services.AddUnitOfWork<ApplicationContext>();
 
-            return services;
-        }
+        return services;
     }
 }
