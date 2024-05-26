@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using netcoreTemplate.Application.Features.Feature1.Service;
 using System.Reflection;
 
 namespace netcoreTemplate.application;
@@ -9,12 +10,17 @@ public static class DependencyInjectionExtension
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
 
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+
+        services.AddScoped<IService, Service>();
+
         return services;
     }
 }

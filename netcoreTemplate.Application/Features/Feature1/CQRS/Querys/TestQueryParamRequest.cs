@@ -1,12 +1,11 @@
 using MediatR;
+using netcoreTemplate.Application.Features.Feature1.Dtos;
 
 namespace netcoreTemplate.Application.Features.Feature1.CQRS.Querys;
 
-public class TestQueryParamRequestRequest : IRequest<IReadOnlyCollection<TestQueryModel>>
+public class TestQueryParamRequestRequest(Guid id) : IRequest<IReadOnlyCollection<TestQueryModel>>
 {
-    public Guid Id { get; private set; }
-
-    public TestQueryParamRequestRequest(Guid id) => Id = id;
+    public Guid Id { get; private set; } = id;
 }
 
 
@@ -14,7 +13,7 @@ public class TestQueryParamRequestHandler : IRequestHandler<TestQueryParamReques
 {
     public async Task<IReadOnlyCollection<TestQueryModel>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {
-        TestQueryModel item = new() { Id = request.Id };
+        TestQueryModel item = new(request.Id);
         return await Task.FromResult(new List<TestQueryModel> { item });
     }
 }

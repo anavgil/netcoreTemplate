@@ -1,4 +1,5 @@
 using MediatR;
+using netcoreTemplate.Application.Features.Feature1.Dtos;
 using System.Collections.ObjectModel;
 
 namespace netcoreTemplate.Application.Features.Feature1.CQRS.Querys;

@@ -1,6 +1,6 @@
 using Carter;
 using MediatR;
-using netcoreTemplate.application.CQRS.Querys;
+using netcoreTemplate.Application.Features.Feature1.CQRS.Querys;
 
 namespace netcoreTemplate.api.Modules;
 
@@ -8,13 +8,13 @@ public class ApiModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", async (HttpContext _, IMediator mediator, CancellationToken ct) =>
+        app.MapGet("/", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
 
             await mediator.Send(new TestQueryRequestRequest(), ct);
         });
 
-        app.MapGet("/{id}", async (HttpContext _, string id, IMediator mediator, CancellationToken ct) =>
+        app.MapGet("/{id}", async (HttpContext _, string id, ISender mediator, CancellationToken ct) =>
         {
             if (string.IsNullOrWhiteSpace(id))
                 return Results.BadRequest();
