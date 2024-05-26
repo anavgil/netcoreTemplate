@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EntityFrameworkCore.UnitOfWork.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using netcoreTemplate.Application.Features.Feature1.Dtos;
 using netcoreTemplate.Domain.Model;
 
@@ -7,7 +8,7 @@ namespace netcoreTemplate.Application.Features.Feature1.Service;
 
 public class Service(IMapper mapper, IUnitOfWork uow) : IService
 {
-    public Task<IEnumerable<TestDTO>> GetAsync()
+    public async Task<IEnumerable<TestDTO>> GetAsync()
     {
         var repo = uow.Repository<TestModel>();
 
@@ -17,9 +18,6 @@ public class Service(IMapper mapper, IUnitOfWork uow) : IService
         var f = repo.ToQueryable(query);
 
 
-        mapper.ProjectTo<TestDTO>(f);
-
-
-        throw new NotImplementedException();
+        return await mapper.ProjectTo<TestDTO>(f).ToListAsync();
     }
 }

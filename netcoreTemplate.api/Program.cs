@@ -1,4 +1,5 @@
 using Carter;
+using netcoreTemplate.Api.Middlewares;
 using netcoreTemplate.application;
 using netcoreTemplate.Infrastructure;
 
@@ -8,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddControllers();
 //builder.Services.RegisterJwtAuthentication(builder.Configuration);
+
+builder.Services.AddExceptionHandler<GlobalExceptionMiddleware>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddCarter();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,6 +24,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
 
 app.MapCarter();
 

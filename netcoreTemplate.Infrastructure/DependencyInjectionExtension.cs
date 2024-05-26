@@ -24,6 +24,10 @@ public static class DependencyInjectionExtension
         .AddEntityFrameworkStores<IdentityContext>();
 
         services.AddHttpClient();
+
+        services.AddScoped<DbContext, IdentityContext>();
+
+        services.AddUnitOfWork();
         services.AddUnitOfWork<IdentityContext>();
         //services.AddUnitOfWork<ApplicationContext>();
 
