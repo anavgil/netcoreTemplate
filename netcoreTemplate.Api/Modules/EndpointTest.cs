@@ -1,20 +1,26 @@
-using Carter;
+﻿
 using MediatR;
 using netcoreTemplate.application.CQRS.Querys;
 
-namespace netcoreTemplate.api.Modules;
+namespace netcoreTemplate.Api.Modules;
 
-public class ApiModule : ICarterModule
+public class EndpointTest : IEndpoint
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", async (HttpContext _, IMediator mediator, CancellationToken ct) =>
+        var group = app.MapGroup("testApi");
+
+        group.WithTags("TestApi");
+
+        group.MapGet("/test", () => Results.Ok());
+
+        group.MapGet("/", async (HttpContext _, IMediator mediator, CancellationToken ct) =>
         {
 
             await mediator.Send(new TestQueryRequestRequest(), ct);
         });
 
-        app.MapGet("/{id}", async (HttpContext _, string id, IMediator mediator, CancellationToken ct) =>
+        group.MapGet("/{id}", async (HttpContext _, string id, IMediator mediator, CancellationToken ct) =>
         {
             if (string.IsNullOrWhiteSpace(id))
                 return Results.BadRequest();
