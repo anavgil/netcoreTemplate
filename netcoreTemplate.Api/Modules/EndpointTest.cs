@@ -14,13 +14,13 @@ public class EndpointTest : IEndpoint
 
         group.MapGet("/test", () => Results.Ok());
 
-        group.MapGet("/", async (HttpContext _, IMediator mediator, CancellationToken ct) =>
+        group.MapGet("/", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
 
             await mediator.Send(new TestQueryRequestRequest(), ct);
         });
 
-        group.MapGet("/{id}", async (HttpContext _, string id, IMediator mediator, CancellationToken ct) =>
+        group.MapGet("/{id}", async (HttpContext _, string id, ISender mediator, CancellationToken ct) =>
         {
             if (string.IsNullOrWhiteSpace(id))
                 return Results.BadRequest();
