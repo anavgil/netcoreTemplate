@@ -5,7 +5,7 @@ namespace netcoreTemplate.Api.Modules;
 
 public static class RegisterEndpointExtension
 {
-    public static IServiceCollection AddEndpoints(this IServiceCollection services,Assembly assembly)
+    public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
     {
         ServiceDescriptor[] serviceDescriptors = assembly
                                                 .DefinedTypes
@@ -19,7 +19,7 @@ public static class RegisterEndpointExtension
         return services;
     }
 
-    public static IApplicationBuilder MapEndpoints(this WebApplication app,RouteGroupBuilder routeGroupBuilder = null)
+    public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder routeGroupBuilder = null)
     {
         IEnumerable<IEndpoint> endpoints = app.Services
                                             .GetRequiredService<IEnumerable<IEndpoint>>();

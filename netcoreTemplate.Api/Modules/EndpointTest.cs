@@ -1,6 +1,8 @@
 ﻿
 using MediatR;
-using netcoreTemplate.application.CQRS.Querys;
+using Microsoft.AspNetCore.Http.HttpResults;
+using netcoreTemplate.Application.Test.Get;
+using netcoreTemplate.Application.Test.GetById;
 
 namespace netcoreTemplate.Api.Modules;
 
@@ -12,28 +14,33 @@ public class EndpointTest : IEndpoint
 
         group.WithTags("TestApi");
 
-        group.MapGet("/test", () => Results.Ok());
-
         group.MapGet("/", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
+            var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
-            await mediator.Send(new TestQueryRequestRequest(), ct);
+            return TypedResults.Ok(result);
         });
 
-        group.MapGet("/{id}", async (HttpContext _, string id, ISender mediator, CancellationToken ct) =>
+        group.MapGet("/{id}", GetResourceById);
+
+
+        static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                return Results.BadRequest();
+            var validator = new TestQueryParamRequestValidator();
+            var request = new TestQueryParamRequestRequest(id);
 
-            if (!Guid.TryParse(id, out var id2))
+            var validationResult = validator.Validate(request);
+
+            if (validationResult.IsValid)
             {
-                return Results.BadRequest();
+                var result = await mediator.Send(request, ct);
+
+                return TypedResults.Ok(result);
             }
-
-            var request = new TestQueryParamRequestRequest(id2);
-            var result = await mediator.Send(request, ct);
-
-            return Results.Ok(result);
-        });
+            else
+            {
+                return TypedResults.ValidationProblem(validationResult.ToDictionary());
+            }
+        }
     }
 }
