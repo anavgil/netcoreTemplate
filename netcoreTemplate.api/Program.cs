@@ -1,3 +1,4 @@
+using netcoreTemplate.Api.Middlewares;
 using netcoreTemplate.Api.Modules;
 using netcoreTemplate.application;
 using netcoreTemplate.Infrastructure;
@@ -8,8 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddControllers();
 //builder.Services.RegisterJwtAuthentication(builder.Configuration);
-
-builder.Services.AddEndpoints(typeof(Program).Assembly);
+builder.Services
+        .AddExceptionHandler<GlobalExceptionHandler>()
+        .AddProblemDetails()
+        .AddEndpoints(typeof(Program).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,7 +23,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-
+app.UseExceptionHandler();
+app.UseRequestSecurity();
 app.MapEndpoints();
 
 
