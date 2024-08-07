@@ -8,7 +8,7 @@ namespace netcoreTemplate.Application.Test.GetById
         {
             RuleFor(x => x.Id)
                 .NotEmpty()
-                .Must(p => Guid.TryParse(p,out _)).WithMessage("El valor debe ser un GUID válido.");
+                .Must(p => Guid.TryParse(p, out _)).WithMessage("El valor debe ser un GUID válido.");
         }
     }
 }

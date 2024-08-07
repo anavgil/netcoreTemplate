@@ -13,7 +13,7 @@ namespace netcoreTemplate.Infrastructure
     public static class DependencyInjectionExtension
     {
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSqlite<IdentityContext>(configuration.GetConnectionString("Default"), options =>
             {

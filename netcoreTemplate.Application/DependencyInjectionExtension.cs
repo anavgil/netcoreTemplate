@@ -6,7 +6,7 @@ namespace netcoreTemplate.application;
 
 public static class DependencyInjectionExtension
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
 
 
