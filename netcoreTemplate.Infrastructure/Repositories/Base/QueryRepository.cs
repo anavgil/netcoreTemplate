@@ -19,14 +19,12 @@ namespace netcoreTemplate.Infrastructure.Repositories.Base
         }
         public async Task<IReadOnlyList<TEntity>> GetAllAsync()
         {
-            return await Task.FromResult((IReadOnlyList<TEntity>)[]);
-            //throw new NotImplementedException();
+            return await DbSet.ToListAsync().ConfigureAwait(false);
         }
 
         public async Task<TEntity> GetByIdAsync(long id)
         {
-            return await Task.FromResult<TEntity>(null);
-            //throw new NotImplementedException();
+             return await DbSet.FindAsync(id);
         }
     }
 }
