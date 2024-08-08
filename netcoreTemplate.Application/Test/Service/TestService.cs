@@ -1,10 +1,11 @@
 ﻿using FluentResults;
 using netcoreTemplate.Application.Test.GetById;
+using netcoreTemplate.Domain.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace netcoreTemplate.Application.Test.Service;
 
-public class TestService : ITestService
+public class TestService(IUnitOfWork uow) : ITestService
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetAll()
     {

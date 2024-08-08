@@ -24,7 +24,7 @@ namespace netcoreTemplate.Infrastructure
             .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddHttpClient();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork<IdentityContext>>();
 
             return services;
         }
