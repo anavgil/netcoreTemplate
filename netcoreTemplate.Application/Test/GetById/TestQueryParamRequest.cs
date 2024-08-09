@@ -1,9 +1,10 @@
+using FluentResults;
 using MediatR;
 using netcoreTemplate.Application.Test.Service;
 
 namespace netcoreTemplate.Application.Test.GetById;
 
-public class TestQueryParamRequestRequest(string id) : IRequest<IReadOnlyCollection<TestQueryDto>>
+public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public string Id { get; private set; } = id;
 
@@ -11,12 +12,10 @@ public class TestQueryParamRequestRequest(string id) : IRequest<IReadOnlyCollect
 }
 
 
-public class TestQueryParamRequestHandler(ITestService service) : IRequestHandler<TestQueryParamRequestRequest, IReadOnlyCollection<TestQueryDto>>
+public class TestQueryParamRequestHandler(ITestService service) : IRequestHandler<TestQueryParamRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
 {
-    public async Task<IReadOnlyCollection<TestQueryDto>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
+    public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {
-        var result = await service.GetById(request.ParsedId);
-
-        return result.Value;
+        return await service.GetById(request.ParsedId);
     }
 }

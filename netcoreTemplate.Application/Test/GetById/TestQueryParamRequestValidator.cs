@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
 
-namespace netcoreTemplate.Application.Test.GetById
+namespace netcoreTemplate.Application.Test.GetById;
+
+public class TestQueryParamRequestValidator : AbstractValidator<TestQueryParamRequestRequest>
 {
-    public class TestQueryParamRequestValidator : AbstractValidator<TestQueryParamRequestRequest>
+    public TestQueryParamRequestValidator()
     {
-        public TestQueryParamRequestValidator()
-        {
-            RuleFor(x => x.Id)
-                .NotEmpty()
-                .Must(p => Guid.TryParse(p, out _)).WithMessage("El valor debe ser un GUID válido.");
-        }
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .Must(p => Guid.TryParse(p, out _)).WithMessage("El valor debe ser un GUID válido.");
     }
 }

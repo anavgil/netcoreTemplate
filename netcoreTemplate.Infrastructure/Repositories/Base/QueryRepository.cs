@@ -24,7 +24,7 @@ namespace netcoreTemplate.Infrastructure.Repositories.Base
 
         public async Task<TEntity> GetByIdAsync(long id)
         {
-             return await DbSet.FindAsync(id);
+            return await DbSet.FindAsync(id);
         }
     }
 }

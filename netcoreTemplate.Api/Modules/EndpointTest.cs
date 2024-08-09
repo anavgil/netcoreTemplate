@@ -24,7 +24,7 @@ public class EndpointTest : IEndpoint
         group.MapGet("/{id}", GetResourceById);
 
 
-        static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)
+        static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem, NotFound>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)
         {
             var validator = new TestQueryParamRequestValidator();
             var request = new TestQueryParamRequestRequest(id);
@@ -35,7 +35,14 @@ public class EndpointTest : IEndpoint
             {
                 var result = await mediator.Send(request, ct);
 
-                return TypedResults.Ok(result);
+                if (result.IsSuccess)
+                {
+                    return TypedResults.Ok(result.Value);
+                }
+                else
+                {
+                    return TypedResults.NotFound();
+                }
             }
             else
             {
