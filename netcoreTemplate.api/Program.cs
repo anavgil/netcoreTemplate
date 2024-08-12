@@ -1,5 +1,5 @@
+using Api.Endpoints;
 using Api.Middlewares;
-using Api.Modules;
 using Application;
 using Infrastructure;
 

@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using netcoreTemplate.Application.Test.Get;
 
-namespace Api.Modules;
+namespace Api.Endpoints;
 
 public class EndpointTest : IEndpoint
 {

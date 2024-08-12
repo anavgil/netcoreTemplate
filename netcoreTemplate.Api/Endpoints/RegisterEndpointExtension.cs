@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace Api.Modules;
+namespace Api.Endpoints;
 
 public static class RegisterEndpointExtension
 {
