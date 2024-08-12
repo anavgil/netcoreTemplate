@@ -1,7 +1,7 @@
-﻿using Application.Test.GetById;
+﻿using Application.Test.Get;
+using Application.Test.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
-using netcoreTemplate.Application.Test.Get;
 
 namespace Api.Endpoints;
 
@@ -25,28 +25,18 @@ public class EndpointTest : IEndpoint
 
         static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem, NotFound>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)
         {
-            var validator = new TestQueryParamRequestValidator();
             var request = new TestQueryParamRequestRequest(id);
+            var result = await mediator.Send(request, ct);
 
-            var validationResult = validator.Validate(request);
-
-            if (validationResult.IsValid)
+            if (result.IsSuccess)
             {
-                var result = await mediator.Send(request, ct);
-
-                if (result.IsSuccess)
-                {
-                    return TypedResults.Ok(result.Value);
-                }
-                else
-                {
-                    return TypedResults.NotFound();
-                }
+                return TypedResults.Ok(result.Value);
             }
             else
             {
-                return TypedResults.ValidationProblem(validationResult.ToDictionary());
+                return TypedResults.NotFound();
             }
+
         }
     }
 }

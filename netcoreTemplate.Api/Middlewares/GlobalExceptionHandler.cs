@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Middlewares;
@@ -19,15 +20,18 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
             Status = statusCode,
             Title = exception.GetType().Name,
             Detail = exception.Message,
-            Instance = httpContext.Request.Path
+            Instance = httpContext.Request.Path,
+            Type = exception.GetType().Name
         };
 
         if (exception.InnerException is not null)
+        {
             problemDetails.Extensions = new Dictionary<string, object>()
             {
                 { "INNER-Message",exception.InnerException.Message },
                 { "INNER-Type",exception.InnerException.GetType().Name}
             };
+        }
 
         httpContext.Response.StatusCode = problemDetails.Status.Value;
 
@@ -41,6 +45,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
     private int GetStatuscodeFromException(Exception exception) => exception switch
     {
         BadHttpRequestException => StatusCodes.Status400BadRequest,
+        ValidationException => StatusCodes.Status400BadRequest,
         _ => StatusCodes.Status500InternalServerError
     };
 }

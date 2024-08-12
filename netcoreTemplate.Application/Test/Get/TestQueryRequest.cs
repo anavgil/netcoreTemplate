@@ -3,7 +3,7 @@ using Application.Test.Service;
 using FluentResults;
 using MediatR;
 
-namespace netcoreTemplate.Application.Test.Get;
+namespace Application.Test.Get;
 
 public class TestQueryRequestRequest : IRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {
