@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace netcoreTemplate.Application.Test.GetById;
+namespace Application.Test.GetById;
 
 public class TestQueryParamRequestValidator : AbstractValidator<TestQueryParamRequestRequest>
 {

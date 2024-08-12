@@ -1,7 +1,7 @@
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using netcoreTemplate.Domain.Interfaces;
 
-namespace netcoreTemplate.Infrastructure.Repositories.Base;
+namespace Infrastructure.Repositories.Base;
 
 public class UnitOfWork<TContext>(TContext context) : IUnitOfWork, IDisposable
     where TContext : DbContext

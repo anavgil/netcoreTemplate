@@ -1,7 +1,7 @@
-﻿using FluentResults;
-using netcoreTemplate.Application.Test.GetById;
+﻿using Application.Test.GetById;
+using FluentResults;
 
-namespace netcoreTemplate.Application.Test.Service;
+namespace Application.Test.Service;
 
 public interface ITestService
 {

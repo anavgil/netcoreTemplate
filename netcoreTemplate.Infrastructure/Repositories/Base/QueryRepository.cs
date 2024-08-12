@@ -1,30 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
-using netcoreTemplate.Domain.Interfaces;
+﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace netcoreTemplate.Infrastructure.Repositories.Base
+namespace Infrastructure.Repositories.Base;
+
+public class QueryRepository<TEntity, TContext> : IQueryRepository<TEntity>
+    where TEntity : class, new()
+    where TContext : DbContext
 {
-    public class QueryRepository<TEntity, TContext> : IQueryRepository<TEntity>
-        where TEntity : class, new()
-        where TContext : DbContext
+    protected readonly DbSet<TEntity> DbSet;
+    protected readonly TContext _context;
+
+    public QueryRepository(TContext context)
     {
-        protected readonly DbSet<TEntity> DbSet;
-        protected readonly TContext _context;
+        ArgumentNullException.ThrowIfNull(context);
 
-        public QueryRepository(TContext context)
-        {
-            ArgumentNullException.ThrowIfNull(context);
+        DbSet = context.Set<TEntity>();
+        _context = context;
+    }
+    public async Task<IReadOnlyList<TEntity>> GetAllAsync()
+    {
+        return await DbSet.ToListAsync().ConfigureAwait(false);
+    }
 
-            DbSet = context.Set<TEntity>();
-            _context = context;
-        }
-        public async Task<IReadOnlyList<TEntity>> GetAllAsync()
-        {
-            return await DbSet.ToListAsync().ConfigureAwait(false);
-        }
-
-        public async Task<TEntity> GetByIdAsync(long id)
-        {
-            return await DbSet.FindAsync(id);
-        }
+    public async Task<TEntity> GetByIdAsync(long id)
+    {
+        return await DbSet.FindAsync(id);
     }
 }

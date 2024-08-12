@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace netcoreTemplate.Infrastructure.Persistence;
+namespace Infrastructure.Persistence;
 
 public class ApplicationContext : DbContext
 {

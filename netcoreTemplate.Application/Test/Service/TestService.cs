@@ -1,9 +1,9 @@
-﻿using FluentResults;
-using netcoreTemplate.Application.Test.GetById;
-using netcoreTemplate.Domain.Interfaces;
+﻿using Application.Test.GetById;
+using Domain.Interfaces;
+using FluentResults;
 using System.Collections.ObjectModel;
 
-namespace netcoreTemplate.Application.Test.Service;
+namespace Application.Test.Service;
 
 public class TestService(IUnitOfWork uow) : ITestService
 {

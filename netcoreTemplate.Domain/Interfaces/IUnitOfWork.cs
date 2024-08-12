@@ -1,4 +1,4 @@
-﻿namespace netcoreTemplate.Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -1,7 +1,7 @@
+using Application.Test.GetById;
+using Application.Test.Service;
 using FluentResults;
 using MediatR;
-using netcoreTemplate.Application.Test.GetById;
-using netcoreTemplate.Application.Test.Service;
 
 namespace netcoreTemplate.Application.Test.Get;
 

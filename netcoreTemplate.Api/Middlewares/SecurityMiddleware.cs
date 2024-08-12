@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-namespace netcoreTemplate.Api.Middlewares;
+namespace Api.Middlewares;
 
 public class SecurityMiddleware(RequestDelegate next)
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace netcoreTemplate.Api.Modules;
+namespace Api.Modules;
 
 public static class RegisterEndpointExtension
 {

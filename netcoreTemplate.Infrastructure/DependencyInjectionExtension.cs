@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Interfaces;
+using Infrastructure.Persistence.Identity;
+using Infrastructure.Persistence.Identity.Model;
+using Infrastructure.Repositories.Base;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using netcoreTemplate.Domain.Interfaces;
-using netcoreTemplate.Infrastructure.Persistence.Identity;
-using netcoreTemplate.Infrastructure.Persistence.Identity.Model;
-using netcoreTemplate.Infrastructure.Repositories.Base;
 using System.Reflection;
 
-namespace netcoreTemplate.Infrastructure
+namespace Infrastructure
 {
     public static class DependencyInjectionExtension
     {

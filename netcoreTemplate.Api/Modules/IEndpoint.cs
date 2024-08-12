@@ -1,4 +1,4 @@
-﻿namespace netcoreTemplate.Api.Modules;
+﻿namespace Api.Modules;
 
 public interface IEndpoint
 {

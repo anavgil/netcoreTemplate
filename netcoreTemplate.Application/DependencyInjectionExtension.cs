@@ -1,9 +1,9 @@
+using Application.Test.Service;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using netcoreTemplate.Application.Test.Service;
 using System.Reflection;
 
-namespace netcoreTemplate.application;
+namespace Application;
 
 public static class DependencyInjectionExtension
 {

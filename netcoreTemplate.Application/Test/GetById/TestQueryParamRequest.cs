@@ -1,14 +1,14 @@
+using Application.Test.Service;
 using FluentResults;
 using MediatR;
-using netcoreTemplate.Application.Test.Service;
 
-namespace netcoreTemplate.Application.Test.GetById;
+namespace Application.Test.GetById;
 
 public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public string Id { get; private set; } = id;
 
-    public Guid ParsedId => Guid.Parse(this.Id);
+    public Guid ParsedId => Guid.Parse(Id);
 }
 
 

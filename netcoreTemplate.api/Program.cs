@@ -1,7 +1,7 @@
-using netcoreTemplate.Api.Middlewares;
-using netcoreTemplate.Api.Modules;
-using netcoreTemplate.application;
-using netcoreTemplate.Infrastructure;
+using Api.Middlewares;
+using Api.Modules;
+using Application;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

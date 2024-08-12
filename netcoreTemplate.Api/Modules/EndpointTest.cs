@@ -1,10 +1,9 @@
-﻿
+﻿using Application.Test.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using netcoreTemplate.Application.Test.Get;
-using netcoreTemplate.Application.Test.GetById;
 
-namespace netcoreTemplate.Api.Modules;
+namespace Api.Modules;
 
 public class EndpointTest : IEndpoint
 {

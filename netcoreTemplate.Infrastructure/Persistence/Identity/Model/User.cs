@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace netcoreTemplate.Infrastructure.Persistence.Identity.Model
+namespace Infrastructure.Persistence.Identity.Model;
+
+public class User : IdentityUser
 {
-    public class User : IdentityUser
-    {
-        public string FirstName { get; set; } = default!;
-        public string LastName { get; set; } = default!;
-    }
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
 }

@@ -15,7 +15,7 @@
     <PackageReference Include="MediatR" Version="12.4.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netcoreTemplate.Domain\netcoreTemplate.Domain.csproj" />
+    <ProjectReference Include="..\netcoreTemplate.Domain\Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />

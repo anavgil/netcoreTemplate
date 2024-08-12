@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Infrastructure.Persistence.Identity.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using netcoreTemplate.Infrastructure.Persistence.Identity.Model;
 
-namespace netcoreTemplate.Infrastructure.Persistence.Identity
+namespace Infrastructure.Persistence.Identity;
+
+public class IdentityContext : IdentityDbContext<User>
 {
-    public class IdentityContext : IdentityDbContext<User>
+    public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
     {
-        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
-        {
 
-        }
     }
 }

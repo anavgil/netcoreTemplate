@@ -1,3 +1,3 @@
-namespace netcoreTemplate.Application.Test.GetById;
+namespace Application.Test.GetById;
 
 public record TestQueryDto(Guid Id) { }

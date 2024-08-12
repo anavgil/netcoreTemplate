@@ -2,13 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netcoreTemplate.Api", "netcoreTemplate.api\netcoreTemplate.Api.csproj", "{9BB59688-BA7C-4DAC-955F-0A4D18508795}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "netcoreTemplate.api\Api.csproj", "{9BB59688-BA7C-4DAC-955F-0A4D18508795}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netcoreTemplate.Application", "netcoreTemplate.application\netcoreTemplate.Application.csproj", "{CE47322A-29DF-47BD-BD65-2808C6368789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "netcoreTemplate.application\Application.csproj", "{CE47322A-29DF-47BD-BD65-2808C6368789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netcoreTemplate.Domain", "netcoreTemplate.Domain\netcoreTemplate.Domain.csproj", "{B2069A36-3B4D-47BF-A976-FDC40FFDE33D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "netcoreTemplate.Domain\Domain.csproj", "{B2069A36-3B4D-47BF-A976-FDC40FFDE33D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "netcoreTemplate.Infrastructure", "netcoreTemplate.Infrastructure\netcoreTemplate.Infrastructure.csproj", "{C2B97783-F691-4322-92D3-C3436E726987}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "netcoreTemplate.Infrastructure\Infrastructure.csproj", "{C2B97783-F691-4322-92D3-C3436E726987}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
