@@ -17,7 +17,7 @@ public class EndpointTest : IEndpoint
         {
             var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
-            return TypedResults.Ok(result);
+            return TypedResults.Ok(result.Value);
         });
 
         group.MapGet("/{id}", GetResourceById);
