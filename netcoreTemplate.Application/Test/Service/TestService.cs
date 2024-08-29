@@ -18,4 +18,10 @@ public class TestService(IUnitOfWork uow) : ITestService
 
         return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>() { item }));
     }
+
+    public Task<IResult<IReadOnlyList<TestQueryDto>>> GetFiltered()
+    {
+        IQueryRepository<user>
+        throw new NotImplementedException();
+    }
 }
