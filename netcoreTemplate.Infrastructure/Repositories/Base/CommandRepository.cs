@@ -20,16 +20,19 @@ public class CommandRepository<TEntity, TContext> : ICommandRepository<TEntity>
 
     public Task<TEntity> AddAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        DbSet.Add(entity);
+        return Task.FromResult(entity);
     }
 
     public Task DeleteAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        DbSet.Remove(entity);
+        return Task.CompletedTask;
     }
 
     public Task UpdateAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        DbSet.Update(entity);
+        return Task.CompletedTask;
     }
 }
