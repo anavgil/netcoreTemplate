@@ -14,7 +14,7 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        ValidationFailure[] validationFailures = await ValidateAsync(request);
+        ValidationFailure[] validationFailures = await ValidateAsync(request, cancellationToken);
 
         if (validationFailures.Length == 0)
         {
@@ -45,7 +45,7 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         throw new ValidationException(validationFailures);
     }
 
-    private async Task<ValidationFailure[]> ValidateAsync(TRequest request)
+    private async Task<ValidationFailure[]> ValidateAsync(TRequest request, CancellationToken cancellationToken)
     {
         if (!validators.Any())
         {
@@ -55,7 +55,7 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         var context = new ValidationContext<TRequest>(request);
 
         ValidationResult[] validationResults = await Task.WhenAll(
-            validators.Select(validator => validator.ValidateAsync(context)));
+                            validators.Select(validator => validator.ValidateAsync(context, cancellationToken))).ConfigureAwait(false);
 
         ValidationFailure[] validationFailures = validationResults
             .Where(validationResult => !validationResult.IsValid)

@@ -21,7 +21,6 @@ public class TestService(IUnitOfWork uow) : ITestService
 
     public Task<IResult<IReadOnlyList<TestQueryDto>>> GetFiltered()
     {
-        IQueryRepository<user>
         throw new NotImplementedException();
     }
 }
