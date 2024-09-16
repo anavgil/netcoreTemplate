@@ -16,6 +16,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.7.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Aspire.ServiceDefaults\Aspire.ServiceDefaults.csproj" />
     <ProjectReference Include="..\netcoreTemplate.Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 </Project>
