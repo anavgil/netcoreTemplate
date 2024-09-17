@@ -6,13 +6,17 @@ namespace Api.Middlewares;
 
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
 {
+    private const string validationExceptionTitle = "One or more validation errors occurred.";
+    private const string validationExceptionType = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
+    private const string standarExceptionTitle = "One error occurred.";
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var exceptionMessage = exception.Message;
         var problemDetails = new ProblemDetails()
         {
             Instance = httpContext.Request.Path,
-            Status = GetStatuscodeFromException(exception)
+            Status = GetStatuscodeFromException(exception),
+            Detail = exception.Message,
         };
 
         _logger.LogError(exception,
@@ -20,8 +24,8 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
 
         if (exception is ValidationException fluentException)
         {
-            problemDetails.Title = "one or more validation errors occurred.";
-            problemDetails.Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
+            problemDetails.Title = validationExceptionTitle;
+            problemDetails.Type = validationExceptionType;
             List<string> validationErrors = [];
             foreach (var error in fluentException.Errors)
             {
@@ -31,12 +35,8 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
         }
         else
         {
-            problemDetails = new ProblemDetails
-            {
-                Title = exception.GetType().Name,
-                Detail = exception.Message,
-                Type = exception.GetType().Name
-            };
+            problemDetails.Title = standarExceptionTitle;
+            problemDetails.Type = exception.GetType().Name;
 
             if (exception.InnerException is not null)
             {
