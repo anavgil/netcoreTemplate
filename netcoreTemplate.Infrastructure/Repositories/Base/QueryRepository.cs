@@ -26,8 +26,8 @@ public class QueryRepository<TEntity, TContext> : IQueryRepository<TEntity>
     }
 
     public async Task<IReadOnlyList<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null,
-                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
-                                                List<Expression<Func<TEntity, object>>> includes = null, 
+                                                Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                                List<Expression<Func<TEntity, object>>> includes = null,
                                                 bool disableTracking = true, CancellationToken ct = default)
     {
         IQueryable<TEntity> query = DbSet;
