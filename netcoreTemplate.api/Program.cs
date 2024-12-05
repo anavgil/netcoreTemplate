@@ -1,21 +1,23 @@
 using Api.Endpoints;
 using Api.Middlewares;
 using Application;
+using FastEndpoints;
 using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
+using Scalar.AspNetCore;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+builder.Services.AddOpenApi();
 
-// Add services to the container.
+builder.Services.AddFastEndpoints();
 
-//builder.Services.AddControllers();
 //builder.Services.RegisterJwtAuthentication(builder.Configuration);
 builder.Services
         .AddExceptionHandler<CustomExceptionHandler>()
-        .AddProblemDetails(options => 
+        .AddProblemDetails(options =>
             options.CustomizeProblemDetails = context =>
             {
                 context.ProblemDetails.Instance =
@@ -30,27 +32,30 @@ builder.Services
             )
         .AddEndpoints(typeof(Program).Assembly);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+app.UseFastEndpoints();
 
+app.MapDefaultEndpoints();
 app.UseExceptionHandler();
 app.UseRequestSecurity();
-app.MapEndpoints();
+//app.MapEndpoints();
 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithDarkMode(true)
+        .WithTheme(ScalarTheme.Mars)
+        .WithTitle("Es un test");
+    });
 }
 
 app.UseHttpsRedirection();
