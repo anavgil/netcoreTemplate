@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Middlewares;
 
-public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
+public class CustomExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
 {
     private const string validationExceptionTitle = "One or more validation errors occurred.";
     private const string validationExceptionType = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
     private const string standarExceptionTitle = "One error occurred.";
+
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var exceptionMessage = exception.Message;
         var problemDetails = new ProblemDetails()
         {
-            Instance = httpContext.Request.Path,
             Status = GetStatuscodeFromException(exception),
             Detail = exception.Message,
         };
@@ -48,16 +48,16 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
             }
         }
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
-
-        await httpContext.Response
-            .WriteAsJsonAsync(problemDetails, cancellationToken);
-
-        return true;
+        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+        {
+            Exception = exception,
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails
+        });
 
     }
 
-    private int GetStatuscodeFromException(Exception exception) => exception switch
+    private static int GetStatuscodeFromException(Exception exception) => exception switch
     {
         BadHttpRequestException => StatusCodes.Status400BadRequest,
         ValidationException => StatusCodes.Status400BadRequest,
