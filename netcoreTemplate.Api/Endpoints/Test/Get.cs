@@ -3,9 +3,9 @@ using Application.Test.Service;
 using FastEndpoints;
 using FluentResults;
 
-namespace Api.Endpoints.Test.GetAll;
+namespace Api.Endpoints.Test;
 
-public class GetAllEndpoint(ITestService testService) : EndpointWithoutRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
+public class Get(ITestService testService) : EndpointWithoutRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public override void Configure()
     {

@@ -3,9 +3,9 @@ using Application.Test.Service;
 using FastEndpoints;
 using FluentResults;
 
-namespace Api.Endpoints.Test.GetById;
+namespace Api.Endpoints.Test;
 
-public class GetByIdEndpoint(ITestService testService) : EndpointWithoutRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
+public class GetById(ITestService testService) : EndpointWithoutRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public override void Configure()
     {
@@ -17,7 +17,7 @@ public class GetByIdEndpoint(ITestService testService) : EndpointWithoutRequest<
     {
         var id = Route<string>("id");
 
-        var parsedId=Guid.Parse(id);
+        var parsedId = Guid.Parse(id);
         await testService.GetById(parsedId);
         //return base.HandleAsync(req, ct);
     }
