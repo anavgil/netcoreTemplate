@@ -3,7 +3,7 @@ using FluentResults;
 
 namespace Application.Test.Service;
 
-public interface ITestService
+public interface IItemService
 {
     Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetAll();
     Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetById(Guid id);

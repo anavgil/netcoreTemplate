@@ -9,7 +9,7 @@ public class TestQueryRequestRequest : IRequest<IResult<IReadOnlyCollection<Test
 {
 }
 
-public class TestQueryRequestHandler(ITestService service) : IRequestHandler<TestQueryRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
+public class TestQueryRequestHandler(IItemService service) : IRequestHandler<TestQueryRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> Handle(TestQueryRequestRequest request, CancellationToken cancellationToken)
     {

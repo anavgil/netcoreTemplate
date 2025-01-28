@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Application.Test.Service;
 
-public class TestService(IUnitOfWork uow) : ITestService
+public class ItemService(IUnitOfWork uow) : IItemService
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetAll()
     {

@@ -12,7 +12,7 @@ public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnl
 }
 
 
-public class TestQueryParamRequestHandler(ITestService service) : IRequestHandler<TestQueryParamRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
+public class TestQueryParamRequestHandler(IItemService service) : IRequestHandler<TestQueryParamRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {

@@ -16,7 +16,6 @@ public static class ServiceCollectionExtension
         services.AddOpenApi();
 
         services.AddEndpoints(Assembly.GetExecutingAssembly());
-        //services.AddFastEndpoints();
 
         //builder.Services.RegisterJwtAuthentication(builder.Configuration);
         services.AddExceptionHandler<CustomExceptionHandler>()

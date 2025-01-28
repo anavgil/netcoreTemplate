@@ -12,7 +12,6 @@ public static class ApplicationBuilderExtension
         {
             webApp.MapEndpoints();
         }
-        //app.UseFastEndpoints();
         app.UseExceptionHandler();
         app.UseRequestSecurity();
 
