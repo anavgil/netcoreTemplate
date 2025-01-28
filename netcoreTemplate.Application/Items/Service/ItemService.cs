@@ -21,7 +21,9 @@ public class ItemService(IUnitOfWork uow) : IItemService
     {
         TestQueryDto item = new(id);
 
-        return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>() { item }));
+        return await Task.FromResult(Result.Fail<IReadOnlyCollection<TestQueryDto>>("error").v);
+
+        //return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>() { item }));
     }
 
     public Task<IResult<IReadOnlyList<TestQueryDto>>> GetFiltered()

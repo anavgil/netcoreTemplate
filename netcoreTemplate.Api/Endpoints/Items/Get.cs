@@ -1,11 +1,12 @@
-﻿using Application.Items.GetById;
-using Application.Items.Service;
+﻿using Application.Items.Get;
+using Application.Items.GetById;
 using FastEndpoints;
-using FluentResults;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Endpoints.Items;
 
-public class Get(IItemService testService) : EndpointWithoutRequest<IReadOnlyCollection<TestQueryDto>>
+public class Get(ISender sender) : EndpointWithoutRequest<Ok<IReadOnlyCollection<TestQueryDto>>>
 {
     public override void Configure()
     {
@@ -15,12 +16,8 @@ public class Get(IItemService testService) : EndpointWithoutRequest<IReadOnlyCol
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        //await SendAsync(new()
-        //{
-        //    FullName = $"{r.FirstName} {r.LastName}",
-        //    Message = "Welcome to FastEndpoints..."
-        //});
-        var result = await testService.GetAllAsync(ct);
-        await SendAsync(result.Value, cancellation: ct);
+        var result = await sender.Send(new TestQueryRequestRequest(), ct);
+
+        await SendResultAsync(TypedResults.Ok(result.Value));
     }
 }

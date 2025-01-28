@@ -1,10 +1,11 @@
 ﻿using Application.Items.GetById;
-using Application.Items.Service;
 using FastEndpoints;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Endpoints.Items;
 
-public class GetById(IItemService testService) : EndpointWithoutRequest<IReadOnlyCollection<TestQueryDto>>
+public class GetById(ISender sender) : EndpointWithoutRequest<Results<Ok<IReadOnlyCollection<TestQueryDto>>, NotFound>>
 {
     public override void Configure()
     {
@@ -16,9 +17,14 @@ public class GetById(IItemService testService) : EndpointWithoutRequest<IReadOnl
     {
         var id = Route<string>("id");
 
-        var parsedId = Guid.Parse(id);
-        var result = await testService.GetByIdAsync(parsedId, ct);
+        var request = new TestQueryParamRequestRequest(id);
+        var result = await sender.Send(request, ct);
 
-        await SendAsync(result.Value, cancellation: ct);
+        if(result.IsFailed)
+        {
+            await SendResultAsync(TypedResults.NotFound());
+            return;
+        }
+        await SendResultAsync(TypedResults.Ok(result.Value));
     }
 }
