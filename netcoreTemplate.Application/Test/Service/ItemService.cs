@@ -13,7 +13,6 @@ public class ItemService(IUnitOfWork uow) : IItemService
         {
             new(Guid.NewGuid())
         };
-        //return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>().AsReadOnly()));
         return await Task.FromResult(Result.Ok(t.AsReadOnly()));
     }
 

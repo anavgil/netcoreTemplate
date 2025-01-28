@@ -15,6 +15,9 @@ public static class ApplicationBuilderExtension
         app.UseExceptionHandler();
         app.UseRequestSecurity();
 
+        // Returns the Problem Details response for (empty) non-successful responses
+        app.UseStatusCodePages();
+
         return app;
     }
 }

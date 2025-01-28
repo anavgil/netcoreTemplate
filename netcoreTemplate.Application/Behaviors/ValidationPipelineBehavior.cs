@@ -14,35 +14,18 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        ValidationFailure[] validationFailures = await ValidateAsync(request, cancellationToken);
+        ArgumentNullException.ThrowIfNull(next);
 
-        if (validationFailures.Length == 0)
+        if (validators.Any())
         {
-            return await next();
+            ValidationFailure[] validationFailures = await ValidateAsync(request, cancellationToken);
+
+            if(validationFailures.Length != 0)
+            {
+                throw new ValidationException(validationFailures);
+            }
         }
-
-        //if (typeof(TResponse).IsGenericType &&
-        //    typeof(TResponse).GetGenericTypeDefinition() == typeof(IResult<>))
-        //{
-        //    Type resultType = typeof(TResponse).GetGenericArguments()[0];
-
-        //    MethodInfo failureMethod = typeof(Result<>)
-        //        .MakeGenericType(resultType)
-        //        .GetMethod(nameof(IResult<object>.ValidationFailure));
-
-        //    if (failureMethod is not null)
-        //    {
-        //        return (TResponse)failureMethod.Invoke(
-        //            null,
-        //            [CreateValidationError(validationFailures)]);
-        //    }
-        //}
-        //else if (typeof(TResponse) == typeof(Result))
-        //{
-        //    return (TResponse)(object)Result.Fail(CreateValidationError(validationFailures));
-        //}
-
-        throw new ValidationException(validationFailures);
+        return await next().ConfigureAwait(false);
     }
 
     private async Task<ValidationFailure[]> ValidateAsync(TRequest request, CancellationToken cancellationToken)
