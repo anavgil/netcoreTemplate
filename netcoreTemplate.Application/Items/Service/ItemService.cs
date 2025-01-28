@@ -1,13 +1,13 @@
-﻿using Application.Test.GetById;
+﻿using Application.Items.GetById;
 using Domain.Interfaces;
 using FluentResults;
 using System.Collections.ObjectModel;
 
-namespace Application.Test.Service;
+namespace Application.Items.Service;
 
-public class TestService(IUnitOfWork uow) : ITestService
+public class ItemService(IUnitOfWork uow) : IItemService
 {
-    public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetAll()
+    public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetAllAsync(CancellationToken ct)
     {
         var t = new Collection<TestQueryDto>
         {
@@ -17,7 +17,7 @@ public class TestService(IUnitOfWork uow) : ITestService
         return await Task.FromResult(Result.Ok(t.AsReadOnly()));
     }
 
-    public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetById(Guid id)
+    public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetByIdAsync(Guid id, CancellationToken ct)
     {
         TestQueryDto item = new(id);
 

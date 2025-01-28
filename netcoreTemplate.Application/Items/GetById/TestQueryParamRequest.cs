@@ -1,8 +1,8 @@
-using Application.Test.Service;
+using Application.Items.Service;
 using FluentResults;
 using MediatR;
 
-namespace Application.Test.GetById;
+namespace Application.Items.GetById;
 
 public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {
@@ -12,10 +12,10 @@ public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnl
 }
 
 
-public class TestQueryParamRequestHandler(ITestService service) : IRequestHandler<TestQueryParamRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
+public class TestQueryParamRequestHandler(IItemService service) : IRequestHandler<TestQueryParamRequestRequest, IResult<IReadOnlyCollection<TestQueryDto>>>
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {
-        return await service.GetById(request.ParsedId);
+        return await service.GetByIdAsync(request.ParsedId, cancellationToken);
     }
 }

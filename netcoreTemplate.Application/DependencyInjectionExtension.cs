@@ -1,5 +1,5 @@
 using Application.Behaviors;
-using Application.Test.Service;
+using Application.Items.Service;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -26,7 +26,7 @@ public static class DependencyInjectionExtension
 
     private static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
     {
-        services.AddTransient<ITestService, TestService>();
+        services.AddTransient<IItemService, ItemService>();
 
         return services;
     }

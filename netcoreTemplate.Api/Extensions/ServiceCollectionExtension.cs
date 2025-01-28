@@ -1,22 +1,19 @@
 ﻿using Api.Middlewares;
+using Application;
 using FastEndpoints;
+using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using System.Diagnostics;
-using Application;
-using Api.Endpoints;
-using Infrastructure;
-using System.Reflection;
 
 namespace Api.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddApiServices(this IServiceCollection services,IConfiguration configuration)
+    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOpenApi();
 
-        services.AddEndpoints(Assembly.GetExecutingAssembly());
-        //services.AddFastEndpoints();
+        services.AddFastEndpoints();
 
         //builder.Services.RegisterJwtAuthentication(builder.Configuration);
         services.AddExceptionHandler<CustomExceptionHandler>()
