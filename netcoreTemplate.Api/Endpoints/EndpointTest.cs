@@ -13,14 +13,14 @@ public class EndpointTest : IEndpoint
 
         group.WithTags("TestApi");
 
-        group.MapGet("/", async (HttpContext _, ISender mediator, CancellationToken ct) =>
+        group.MapGet("/items", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
             var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
             return TypedResults.Ok(result.Value);
         });
 
-        group.MapGet("/{id}", GetResourceById);
+        group.MapGet("/items/{id}", GetResourceById);
 
 
         static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem, NotFound>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)

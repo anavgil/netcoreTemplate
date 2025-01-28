@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Application;
 using Api.Endpoints;
 using Infrastructure;
+using System.Reflection;
 
 namespace Api.Extensions;
 
@@ -14,7 +15,8 @@ public static class ServiceCollectionExtension
     {
         services.AddOpenApi();
 
-        services.AddFastEndpoints();
+        services.AddEndpoints(Assembly.GetExecutingAssembly());
+        //services.AddFastEndpoints();
 
         //builder.Services.RegisterJwtAuthentication(builder.Configuration);
         services.AddExceptionHandler<CustomExceptionHandler>()
@@ -29,9 +31,7 @@ public static class ServiceCollectionExtension
                         Activity activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
                         context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
 
-                    }
-                    )
-                .AddEndpoints(typeof(Program).Assembly);
+                    });
 
 
         services.AddApplicationServices();

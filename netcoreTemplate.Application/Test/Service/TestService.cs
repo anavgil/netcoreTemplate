@@ -9,7 +9,12 @@ public class TestService(IUnitOfWork uow) : ITestService
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetAll()
     {
-        return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>().AsReadOnly()));
+        var t = new Collection<TestQueryDto>
+        {
+            new(Guid.NewGuid())
+        };
+        //return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>().AsReadOnly()));
+        return await Task.FromResult(Result.Ok(t.AsReadOnly()));
     }
 
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetById(Guid id)
