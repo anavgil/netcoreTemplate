@@ -11,6 +11,7 @@ public static class ApplicationBuilderExtension
         app.UseExceptionHandler();
         app.UseRequestSecurity();
 
+        app.UseStatusCodePages();
         return app;
     }
 }
