@@ -5,7 +5,7 @@ using FluentResults;
 
 namespace Api.Endpoints.Items;
 
-public class Get(IItemService testService) : EndpointWithoutRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
+public class Get(IItemService testService) : EndpointWithoutRequest<IReadOnlyCollection<TestQueryDto>>
 {
     public override void Configure()
     {
@@ -20,7 +20,7 @@ public class Get(IItemService testService) : EndpointWithoutRequest<IResult<IRea
         //    FullName = $"{r.FirstName} {r.LastName}",
         //    Message = "Welcome to FastEndpoints..."
         //});
-        var r = await testService.GetAllAsync(ct);
-        await SendAsync(r, cancellation: ct);
+        var result = await testService.GetAllAsync(ct);
+        await SendAsync(result.Value, cancellation: ct);
     }
 }

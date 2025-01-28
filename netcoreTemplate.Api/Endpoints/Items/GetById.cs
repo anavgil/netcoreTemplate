@@ -1,11 +1,10 @@
 ﻿using Application.Items.GetById;
 using Application.Items.Service;
 using FastEndpoints;
-using FluentResults;
 
 namespace Api.Endpoints.Items;
 
-public class GetById(IItemService testService) : EndpointWithoutRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
+public class GetById(IItemService testService) : EndpointWithoutRequest<IReadOnlyCollection<TestQueryDto>>
 {
     public override void Configure()
     {
@@ -20,7 +19,6 @@ public class GetById(IItemService testService) : EndpointWithoutRequest<IResult<
         var parsedId = Guid.Parse(id);
         var result = await testService.GetByIdAsync(parsedId, ct);
 
-        await SendAsync(result, cancellation: ct);
-        //return base.HandleAsync(req, ct);
+        await SendAsync(result.Value, cancellation: ct);
     }
 }
