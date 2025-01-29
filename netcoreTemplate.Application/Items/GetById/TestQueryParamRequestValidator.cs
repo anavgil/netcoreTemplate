@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.Test.GetById;
+namespace Application.Items.GetById;
 
 public class TestQueryParamRequestValidator : AbstractValidator<TestQueryParamRequestRequest>
 {

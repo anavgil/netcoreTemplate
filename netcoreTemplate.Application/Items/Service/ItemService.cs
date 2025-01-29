@@ -1,9 +1,9 @@
-﻿using Application.Test.GetById;
+﻿using Application.Items.GetById;
 using Domain.Interfaces;
 using FluentResults;
 using System.Collections.ObjectModel;
 
-namespace Application.Test.Service;
+namespace Application.Items.Service;
 
 public class ItemService(IUnitOfWork uow) : IItemService
 {

@@ -1,8 +1,8 @@
-using Application.Test.Service;
+using Application.Items.Service;
 using FluentResults;
 using MediatR;
 
-namespace Application.Test.GetById;
+namespace Application.Items.GetById;
 
 public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnlyCollection<TestQueryDto>>>
 {

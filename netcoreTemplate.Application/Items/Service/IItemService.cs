@@ -1,7 +1,7 @@
-﻿using Application.Test.GetById;
+﻿using Application.Items.GetById;
 using FluentResults;
 
-namespace Application.Test.Service;
+namespace Application.Items.Service;
 
 public interface IItemService
 {

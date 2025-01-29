@@ -1,15 +1,16 @@
-﻿using Application.Test.GetById;
+﻿using Application.Items.GetById;
+using Application.Test.GetById;
 using FastEndpoints;
 using MediatR;
 
-namespace Api.Endpoints.Test;
+namespace Api.Endpoints.Items;
 
 public class GetById(ISender sender) : EndpointWithoutRequest<IReadOnlyCollection<TestQueryDto>>
 {
     public override void Configure()
     {
         AllowAnonymous();
-        Get("/test/{id}");
+        Get("/items/{id}");
     }
 
     public override async Task HandleAsync(CancellationToken ct)

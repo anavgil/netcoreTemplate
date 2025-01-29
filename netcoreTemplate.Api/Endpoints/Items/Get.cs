@@ -1,15 +1,15 @@
-﻿using Application.Test.Get;
-using Application.Test.GetById;
+﻿using Application.Items.GetById;
+using Application.Test.Get;
 using FastEndpoints;
 using MediatR;
 
-namespace Api.Endpoints.Test;
+namespace Api.Endpoints.Items;
 
 public class Get(ISender sender) : EndpointWithoutRequest<IReadOnlyCollection<TestQueryDto>>
 {
     public override void Configure()
     {
-        Get("/test");
+        Get("/items");
         AllowAnonymous();
     }
 
