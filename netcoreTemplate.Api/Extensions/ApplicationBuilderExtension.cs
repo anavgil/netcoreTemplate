@@ -11,10 +11,11 @@ public static class ApplicationBuilderExtension
         {
             webApp.MapEndpoints();
         }
-        app.UseExceptionHandler();
-        app.UseStatusCodePages();
-        app.UseRequestSecurity();
 
+        app.UseRateLimiter();
+        app.UseExceptionHandler();
+        app.UseRequestSecurity();
+        app.UseCors("develop");
 
         // Returns the Problem Details response for (empty) non-successful responses
         app.UseStatusCodePages();
