@@ -1,5 +1,5 @@
-﻿using Application.Items.GetById;
-using Application.Test.Get;
+﻿using Application.Items.Get;
+using Application.Items.GetById;
 using FastEndpoints;
 using MediatR;
 

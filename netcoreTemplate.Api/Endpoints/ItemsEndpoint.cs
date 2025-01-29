@@ -1,6 +1,5 @@
-﻿using Application.Items.GetById;
-using Application.Test.Get;
-using Application.Test.GetById;
+﻿using Application.Items.Get;
+using Application.Items.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 

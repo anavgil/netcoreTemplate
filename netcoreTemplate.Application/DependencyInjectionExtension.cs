@@ -1,5 +1,5 @@
 using Application.Behaviors;
-using Application.Test.Service;
+using Application.Items.Service;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
