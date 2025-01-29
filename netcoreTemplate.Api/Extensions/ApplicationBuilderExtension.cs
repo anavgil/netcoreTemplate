@@ -13,7 +13,9 @@ public static class ApplicationBuilderExtension
             webApp.MapEndpoints();
         }
         app.UseExceptionHandler();
+        app.UseStatusCodePages();
         app.UseRequestSecurity();
+        
 
         // Returns the Problem Details response for (empty) non-successful responses
         app.UseStatusCodePages();

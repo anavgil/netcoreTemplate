@@ -7,12 +7,20 @@ builder.AddServiceDefaults(); // Aspire services
 
 builder.Services.AddCors(options =>
 {
+<<<<<<< HEAD
     options.AddPolicy(name: "develop", builder =>
     {
         builder//.WithOrigins("http://localhost:3000")
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
+=======
+    options.AddPolicy("dev", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+>>>>>>> Minor refactor
     });
 });
 
@@ -35,6 +43,8 @@ if (app.Environment.IsDevelopment())
         .WithTheme(ScalarTheme.Mars)
         .WithTitle("Es un test");
     });
+
+    app.UseCors("dev");
 }
 
 app.UseHttpsRedirection();
