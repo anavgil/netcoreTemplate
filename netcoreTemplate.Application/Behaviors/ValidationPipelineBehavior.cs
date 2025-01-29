@@ -20,7 +20,7 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         {
             ValidationFailure[] validationFailures = await ValidateAsync(request, cancellationToken);
 
-            if(validationFailures.Length != 0)
+            if (validationFailures.Length != 0)
             {
                 throw new ValidationException(validationFailures);
             }

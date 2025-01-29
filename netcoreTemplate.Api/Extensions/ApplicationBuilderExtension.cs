@@ -1,6 +1,5 @@
-﻿using Api.Middlewares;
-using FastEndpoints;
-using Api.Endpoints;
+﻿using Api.Endpoints;
+using Api.Middlewares;
 
 namespace Api.Extensions;
 
@@ -15,7 +14,7 @@ public static class ApplicationBuilderExtension
         app.UseExceptionHandler();
         app.UseStatusCodePages();
         app.UseRequestSecurity();
-        
+
 
         // Returns the Problem Details response for (empty) non-successful responses
         app.UseStatusCodePages();

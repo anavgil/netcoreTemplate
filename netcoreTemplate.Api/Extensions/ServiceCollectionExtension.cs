@@ -1,17 +1,16 @@
-﻿using Api.Middlewares;
-using FastEndpoints;
+﻿using Api.Endpoints;
+using Api.Middlewares;
+using Application;
+using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using System.Diagnostics;
-using Application;
-using Api.Endpoints;
-using Infrastructure;
 using System.Reflection;
 
 namespace Api.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddApiServices(this IServiceCollection services,IConfiguration configuration)
+    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOpenApi();
 
