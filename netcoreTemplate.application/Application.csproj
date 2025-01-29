@@ -5,9 +5,9 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Test\Commands\**" />
-    <EmbeddedResource Remove="Test\Commands\**" />
-    <None Remove="Test\Commands\**" />
+    <Compile Remove="Items\Commands\**" />
+    <EmbeddedResource Remove="Items\Commands\**" />
+    <None Remove="Items\Commands\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="3.16.0" />
