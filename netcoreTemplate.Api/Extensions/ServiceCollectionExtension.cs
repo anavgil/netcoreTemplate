@@ -1,6 +1,7 @@
 ﻿using Api.Endpoints;
 using Api.Middlewares;
 using Application;
+using Asp.Versioning;
 using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using System.Diagnostics;
@@ -61,6 +62,12 @@ public static class ServiceCollectionExtension
 
                     });
 
+        services.AddApiVersioning(options =>
+        {
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+        });
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);

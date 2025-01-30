@@ -9,7 +9,9 @@ public class ItemsEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("testApi");
+        var apiVersion = app.NewVersionedApi();
+        var group = apiVersion.MapGroup("testApi")
+            .HasApiVersion(1.0);
 
         group.WithTags("TestApi");
 
