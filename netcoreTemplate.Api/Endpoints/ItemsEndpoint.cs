@@ -18,6 +18,7 @@ public class ItemsEndpoint : IEndpoint
     /// <param name="app"></param>
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
+
         ApiVersionSet apiVersionSet = app.NewApiVersionSet()
                                         .HasApiVersion(new ApiVersion(1))
                                         .HasApiVersion(new ApiVersion(2))
@@ -28,28 +29,32 @@ public class ItemsEndpoint : IEndpoint
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags("TestApi");
 
-
         group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
             var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
             return TypedResults.Ok(result.Value);
         })
+        .WithDescription("Get all items")
+        .WithSummary("Get all items")
         .MapToApiVersion(1);
 
+
+        group.MapGet("/{id}", GetResourceById)
+                .WithDescription("Get a item by Id")
+                .WithSummary("Get a item by Id")
+                .MapToApiVersion(1);
+
+
         group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
             var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
             return TypedResults.Ok(result.Value);
         })
+        .WithDescription("Get all items V2")
+        .WithSummary("Get all items V2")
         .MapToApiVersion(2);
-
-        group.MapGet("/{id}", GetResourceById);
-        //.MapToApiVersion(1);
-
-        //group.MapGet("/{id}", GetResourceById);
-        //.MapToApiVersion(2);
 
 
         static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem, NotFound>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)

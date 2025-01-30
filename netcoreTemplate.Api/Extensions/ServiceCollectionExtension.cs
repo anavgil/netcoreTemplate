@@ -23,8 +23,10 @@ public static class ServiceCollectionExtension
     /// <returns></returns>
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddOpenApi();
+        services.AddVersioning();
 
+        services.AddOpenApi();
+        
         services.AddSwagger();
         services.AddCors(options =>
         {
@@ -55,8 +57,6 @@ public static class ServiceCollectionExtension
                     }));
         });
 
-        services.AddEndpoints(Assembly.GetExecutingAssembly());
-
         //builder.Services.RegisterJwtAuthentication(builder.Configuration);
         services.AddExceptionHandler<CustomExceptionHandler>()
                 .AddProblemDetails(options =>
@@ -72,13 +72,22 @@ public static class ServiceCollectionExtension
 
                     });
 
+        services.AddEndpoints(Assembly.GetExecutingAssembly());
+
+        services.AddApplicationServices();
+        services.AddInfrastructureServices(configuration);
+
+        return services;
+    }
+
+    private static IServiceCollection AddVersioning(this IServiceCollection services)
+    {
         services.AddApiVersioning(options =>
         {
             options.ReportApiVersions = true;
             options.AssumeDefaultVersionWhenUnspecified = true;
             options.DefaultApiVersion = new ApiVersion(1, 0);
             options.ApiVersionReader = ApiVersionReader.Combine(
-                                        new QueryStringApiVersionReader("api-version"),
                                         new UrlSegmentApiVersionReader(),
                                         new HeaderApiVersionReader("X-Api-Version"));
         }).AddApiExplorer(options =>
@@ -87,10 +96,6 @@ public static class ServiceCollectionExtension
             // Replace the placeholder with the actual version
             options.SubstituteApiVersionInUrl = true;
         });
-
-        services.AddApplicationServices();
-        services.AddInfrastructureServices(configuration);
-
         return services;
     }
 }
