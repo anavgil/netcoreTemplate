@@ -26,7 +26,7 @@ public static class ServiceCollectionExtension
         services.AddVersioning();
 
         services.AddOpenApi();
-        
+
         services.AddSwagger();
         services.AddCors(options =>
         {

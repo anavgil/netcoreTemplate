@@ -10,7 +10,7 @@ namespace Api.Extensions;
 /// <summary>
 /// 
 /// </summary>
-public class ConfigureSwaggerOptions: IConfigureOptions<SwaggerGenOptions>
+public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider provider;
 
