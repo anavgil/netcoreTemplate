@@ -3,8 +3,16 @@ using Api.Middlewares;
 
 namespace Api.Extensions;
 
+/// <summary>
+/// 
+/// </summary>
 public static class ApplicationBuilderExtension
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
     public static IApplicationBuilder ConfigureApplicationBuilder(this IApplicationBuilder app)
     {
         if (app is WebApplication webApp)

@@ -4,12 +4,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Middlewares;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="problemDetailsService"></param>
+/// <param name="_logger"></param>
 public class CustomExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
 {
     private const string validationExceptionTitle = "One or more validation errors occurred.";
     private const string validationExceptionType = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
     private const string standarExceptionTitle = "One error occurred.";
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <param name="exception"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var exceptionMessage = exception.Message;

@@ -2,9 +2,17 @@
 using System.Reflection;
 
 namespace Api.Endpoints;
-
+/// <summary>
+/// 
+/// </summary>
 public static class RegisterEndpointExtension
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="assembly"></param>
+    /// <returns></returns>
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
     {
         ServiceDescriptor[] serviceDescriptors = assembly
@@ -19,6 +27,12 @@ public static class RegisterEndpointExtension
         return services;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="routeGroupBuilder"></param>
+    /// <returns></returns>
     public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder routeGroupBuilder = null)
     {
         IEnumerable<IEndpoint> endpoints = app.Services

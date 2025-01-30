@@ -3,6 +3,10 @@ using Microsoft.Net.Http.Headers;
 
 namespace Api.Middlewares;
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="next"></param>
 public class SecurityMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
@@ -14,6 +18,11 @@ public class SecurityMiddleware(RequestDelegate next)
         { "default","default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'" }
     };
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public async Task InvokeAsync(HttpContext context)
     {
         context.Response.Headers.Remove("Server");
@@ -40,8 +49,16 @@ public class SecurityMiddleware(RequestDelegate next)
     }
 }
 
+/// <summary>
+/// 
+/// </summary>
 public static class SecurityMiddlewareExtension
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
     public static IApplicationBuilder UseRequestSecurity(this IApplicationBuilder builder)
     {
         return builder.UseMiddleware<SecurityMiddleware>();

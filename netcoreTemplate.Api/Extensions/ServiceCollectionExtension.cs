@@ -10,12 +10,22 @@ using System.Threading.RateLimiting;
 
 namespace Api.Extensions;
 
+/// <summary>
+/// 
+/// </summary>
 public static class ServiceCollectionExtension
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOpenApi();
 
+        services.AddSwagger();
         services.AddCors(options =>
         {
             options.AddPolicy(name: "develop", builder =>
@@ -67,6 +77,15 @@ public static class ServiceCollectionExtension
             options.ReportApiVersions = true;
             options.AssumeDefaultVersionWhenUnspecified = true;
             options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.ApiVersionReader = ApiVersionReader.Combine(
+                                        new QueryStringApiVersionReader("api-version"),
+                                        new UrlSegmentApiVersionReader(),
+                                        new HeaderApiVersionReader("X-Api-Version"));
+        }).AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV";
+            // Replace the placeholder with the actual version
+            options.SubstituteApiVersionInUrl = true;
         });
 
         services.AddApplicationServices();

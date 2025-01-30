@@ -1,28 +1,55 @@
 ﻿using Application.Items.Get;
 using Application.Items.GetById;
+using Asp.Versioning;
+using Asp.Versioning.Builder;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Endpoints;
 
+/// <summary>
+/// 
+/// </summary>
 public class ItemsEndpoint : IEndpoint
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="app"></param>
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        var apiVersion = app.NewVersionedApi();
-        var group = apiVersion.MapGroup("testApi")
-            .HasApiVersion(1.0);
+        ApiVersionSet apiVersionSet = app.NewApiVersionSet()
+                                        .HasApiVersion(new ApiVersion(1))
+                                        .HasApiVersion(new ApiVersion(2))
+                                        .ReportApiVersions()
+                                        .Build();
 
-        group.WithTags("TestApi");
+        RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/items")
+                                    .WithApiVersionSet(apiVersionSet)
+                                    .WithTags("TestApi");
 
-        group.MapGet("/items", async (HttpContext _, ISender mediator, CancellationToken ct) =>
+
+        group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
             var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
             return TypedResults.Ok(result.Value);
-        });
+        })
+        .MapToApiVersion(1);
 
-        group.MapGet("/items/{id}", GetResourceById);
+        group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
+        {
+            var result = await mediator.Send(new TestQueryRequestRequest(), ct);
+
+            return TypedResults.Ok(result.Value);
+        })
+        .MapToApiVersion(2);
+
+        group.MapGet("/{id}", GetResourceById);
+        //.MapToApiVersion(1);
+
+        //group.MapGet("/{id}", GetResourceById);
+        //.MapToApiVersion(2);
 
 
         static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem, NotFound>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)
