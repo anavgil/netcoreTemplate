@@ -19,9 +19,9 @@ public class ItemService(IUnitOfWork uow) : IItemService
 
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> GetByIdAsync(Guid id, CancellationToken ct)
     {
-        TestQueryDto item = new(id);
+        //TestQueryDto item = new(id);
 
-        return await Task.FromResult(Result.Fail<IReadOnlyCollection<TestQueryDto>>("error").v);
+        return await Task.FromResult(Result.Fail<IReadOnlyCollection<TestQueryDto>>("error"));
 
         //return await Task.FromResult(Result.Ok(new Collection<TestQueryDto>() { item }));
     }

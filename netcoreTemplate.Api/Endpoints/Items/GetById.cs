@@ -20,7 +20,7 @@ public class GetById(ISender sender) : EndpointWithoutRequest<Results<Ok<IReadOn
         var request = new TestQueryParamRequestRequest(id);
         var result = await sender.Send(request, ct);
 
-        if(result.IsFailed)
+        if (result.IsFailed)
         {
             await SendResultAsync(TypedResults.NotFound());
             return;
