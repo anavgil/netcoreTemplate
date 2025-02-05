@@ -1,11 +1,4 @@
-﻿using Asp.Versioning.ApiExplorer;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Text;
-
-namespace Api.Extensions;
+﻿namespace Api.Extensions;
 
 /// <summary>
 /// 

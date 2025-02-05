@@ -25,9 +25,9 @@ public static class ServiceCollectionExtension
     {
         services.AddVersioning();
 
-        services.AddOpenApi();
+        services.AddOpenApi("v1");
+        services.AddOpenApi("v2");
 
-        services.AddSwagger();
         services.AddCors(options =>
         {
             options.AddPolicy(name: "develop", builder =>
@@ -90,7 +90,8 @@ public static class ServiceCollectionExtension
             options.ApiVersionReader = ApiVersionReader.Combine(
                                         new UrlSegmentApiVersionReader(),
                                         new HeaderApiVersionReader("X-Api-Version"));
-        }).AddApiExplorer(options =>
+        })
+        .AddApiExplorer(options =>
         {
             options.GroupNameFormat = "'v'VVV";
             // Replace the placeholder with the actual version
