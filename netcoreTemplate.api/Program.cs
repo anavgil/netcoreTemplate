@@ -1,8 +1,11 @@
 using Api.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults(); // Aspire services
+
+builder.Host.UseSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration));
 
 builder.Services.AddApiServices(builder.Configuration);
 

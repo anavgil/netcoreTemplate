@@ -1,6 +1,7 @@
 ﻿using Api.Endpoints;
 using Api.Middlewares;
 using Scalar.AspNetCore;
+using Serilog;
 
 namespace Api.Extensions;
 /// <summary>
@@ -15,6 +16,7 @@ public static class ApplicationBuilderExtension
     /// <returns></returns>
     public static IApplicationBuilder ConfigureApplicationBuilder(this IApplicationBuilder app)
     {
+        app.UseSerilogRequestLogging();
 
         app.UseRateLimiter();
         app.UseExceptionHandler();
