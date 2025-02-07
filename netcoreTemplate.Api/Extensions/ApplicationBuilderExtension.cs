@@ -1,5 +1,7 @@
 ﻿using Api.Endpoints;
 using Api.Middlewares;
+using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -37,15 +39,17 @@ public static class ApplicationBuilderExtension
                 {
                     option.Title = "API Reference";
                     option.Theme = ScalarTheme.Mars;
-                    option.WithHttpBearerAuthentication(jwt =>
-                    {
-                        jwt.Token = "";
-                    });
+                    option.Layout = ScalarLayout.Modern;
+                    option.Favicon = "path";
+                    //option.WithHttpBearerAuthentication(jwt =>
+                    //{
+                    //    jwt.Token = "";
+                    //});
 
-                    option.Authentication = new ScalarAuthenticationOptions
-                    {
-                        PreferredSecurityScheme = "Bearer",
-                    };
+                    //option.Authentication = new ScalarAuthenticationOptions
+                    //{
+                    //    PreferredSecurityScheme = "Bearer",
+                    //};
                 });
             }
         }

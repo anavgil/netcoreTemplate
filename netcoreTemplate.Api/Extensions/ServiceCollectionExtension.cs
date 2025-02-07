@@ -26,8 +26,13 @@ public static class ServiceCollectionExtension
 
         services.AddVersioning();
 
-        services.AddOpenApi("v1");
+        services.AddOpenApi("v1",options =>
+        {
+            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+        });
+
         services.AddOpenApi("v2");
+
 
         services.AddCors(options =>
         {

@@ -25,6 +25,7 @@ public class UserEndpoint : IEndpoint
                                 .Build();
 
         RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/user")
+                                    .AllowAnonymous()
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags("Users");
 
