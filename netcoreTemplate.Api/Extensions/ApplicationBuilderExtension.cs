@@ -1,7 +1,5 @@
 ﻿using Api.Endpoints;
 using Api.Middlewares;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
 using Serilog;
 

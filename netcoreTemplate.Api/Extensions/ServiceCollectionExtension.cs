@@ -26,7 +26,7 @@ public static class ServiceCollectionExtension
 
         services.AddVersioning();
 
-        services.AddOpenApi("v1",options =>
+        services.AddOpenApi("v1", options =>
         {
             options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
         });

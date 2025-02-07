@@ -2,13 +2,14 @@
 using Application.Users.Login;
 using Domain.Identity.Model;
 using FluentResults;
+using Infrastructure.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace Infrastructure.Authentication;
 
-public class AuthenticationService(UserManager<User> userManager, ITokenService tokenService) : IAuthenticationService
+public class AuthenticationService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ITokenService tokenService) : IAuthenticationService
 {
     public async Task<IResult<string>> CreateUserAsync(string name, string surname, string user, string pass, string email)
     {
@@ -16,20 +17,28 @@ public class AuthenticationService(UserManager<User> userManager, ITokenService 
         {
             var identityResult = await userManager.CreateAsync(new User { UserName = user, FirstName = name, LastName = surname, Email = email }, pass);
 
-            if (identityResult.Succeeded)
+            if (!identityResult.Succeeded)
             {
                 Result.Fail<string>("User creation failed")
                     .WithError(identityResult.Errors.Select(e => e.Description).FirstOrDefault());
             }
 
-            var userEntity = await userManager.FindByNameAsync(user);
+            var userEntity = userManager.FindByNameAsync(user);
+            var existRole = roleManager.RoleExistsAsync(Roles.Admin);
 
-            var roleResult = await userManager.AddToRoleAsync(userEntity, "Admin");
+            var (userResult, roleResult) = await TaskExtension.WhenAllExt(userEntity, existRole);
 
-            return roleResult.Succeeded ?
-                    Result.Ok<string>(userEntity.Id) :
+            if (!roleResult)
+            {
+                _ = await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+            }
+
+            var role_ = await userManager.AddToRoleAsync(userResult, Roles.Admin);
+
+            return identityResult.Succeeded ?
+                    Result.Ok<string>(userResult.Id) :
                     Result.Fail<string>("User role creation failed")
-                .WithError(roleResult.Errors.Select(e => e.Description).FirstOrDefault());
+                .WithError(identityResult.Errors.Select(e => e.Description).FirstOrDefault());
         }
         catch (Exception ex)
         {
@@ -45,22 +54,27 @@ public class AuthenticationService(UserManager<User> userManager, ITokenService 
         try
         {
             var userModel = await userManager.FindByNameAsync(user);
+
             if (userModel == null)
             {
                 return Result.Fail<LoginResponseDto>("User not exist");
             }
+
             bool isValidPassword = await userManager.CheckPasswordAsync(userModel, pass);
+
             if (isValidPassword == false)
             {
                 //return Unauthorized();
-
                 return Result.Fail<LoginResponseDto>("Unauthorized Access");
             }
+
+            var role = await userManager.GetRolesAsync(userModel);
 
             // creating the necessary claims
             List<Claim> authClaims = [
                     new (ClaimTypes.Name, userModel.UserName),
                     new (ClaimTypes.Email, userModel.Email),
+                    new (ClaimTypes.Email, role.Any() ? role.First() : string.Empty),
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
                 // unique id for token
         ];
