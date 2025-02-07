@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Application.Authentication.Login;
+using Application.Users.Login;
 using Domain.Identity.Model;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;

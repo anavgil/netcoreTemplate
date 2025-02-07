@@ -1,4 +1,4 @@
-﻿using Application.Authentication.Login;
+﻿using Application.Users.Login;
 using FluentResults;
 
 namespace Application.Abstractions;

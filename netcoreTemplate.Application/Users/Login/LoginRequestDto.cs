@@ -1,3 +1,3 @@
-﻿namespace Application.Authentication.Login;
+﻿namespace Application.Users.Login;
 
-public record LoginRequestDto(string Username, string Password);
+public record LoginRequestDto(string Username = "", string Password = "");

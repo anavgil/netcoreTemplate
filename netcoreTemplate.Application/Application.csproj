@@ -5,8 +5,11 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Interfaces\**" />
     <Compile Remove="Items\Commands\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
     <EmbeddedResource Remove="Items\Commands\**" />
+    <None Remove="Interfaces\**" />
     <None Remove="Items\Commands\**" />
   </ItemGroup>
   <ItemGroup>
@@ -18,7 +21,6 @@
     <ProjectReference Include="..\netcoreTemplate.Domain\Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Users\Service\" />
   </ItemGroup>
 </Project>

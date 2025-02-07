@@ -1,5 +1,4 @@
-﻿using Application.Authentication.Login;
-using FluentResults;
+﻿using FluentResults;
 using MediatR;
 
 namespace Application.Users.Login;

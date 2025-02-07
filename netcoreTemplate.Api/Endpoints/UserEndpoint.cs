@@ -1,9 +1,9 @@
-﻿using Application.Authentication.Login;
-using Application.Users.Login;
+﻿using Application.Users.Login;
 using Application.Users.Register;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints;
@@ -29,20 +29,7 @@ public class UserEndpoint : IEndpoint
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags("Users");
 
-        group.MapPost("/login", async ([FromBody] LoginRequestDto dto, ISender mediator, CancellationToken ct) =>
-        {
-            var result = await mediator.Send(new LoginUserCommand(dto), ct);
-
-            return TypedResults.Ok(result.Value);
-            //if (result.IsSuccess)
-            //{
-            //    return TypedResults.Ok(result.Value);
-            //}
-            //else
-            //{
-            //    return TypedResults.NotFound();
-            //}
-        });
+        group.MapPost("/login", DoLogin);
 
         group.MapPost("/register", async ([FromBody] RegisterRequestDto request, ISender mediator, CancellationToken ct) =>
         {
@@ -50,5 +37,21 @@ public class UserEndpoint : IEndpoint
             return TypedResults.Ok(result.Value);
 
         });
+
+
+        static async Task<Results<Ok<LoginResponseDto>, NotFound>> DoLogin(HttpContext _, [FromBody] LoginRequestDto dto, ISender mediator, CancellationToken ct)
+        {
+            var result = await mediator.Send(new LoginUserCommand(dto), ct);
+
+            if (result.IsSuccess)
+            {
+                return TypedResults.Ok(result.Value);
+            }
+            else
+            {
+                return TypedResults.NotFound();
+            }
+
+        }
     }
 }

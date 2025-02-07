@@ -1,4 +1,4 @@
-﻿namespace Application.Authentication.Login;
+﻿namespace Application.Users.Login;
 
 public class LoginResponseDto
 {
