@@ -3,7 +3,9 @@ using Application.Users.Login;
 using Domain.Identity.Model;
 using FluentResults;
 using Infrastructure.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
@@ -128,6 +130,40 @@ public class AuthenticationService(UserManager<User> userManager, RoleManager<Id
             //_logger.LogError(ex.Message);
             return Result
                     .Fail<LoginResponseDto>("Unauthorized Access")
+                    .WithError(ex.Message);
+        }
+    }
+
+    public async Task<IResult<LoginResponseDto>> RefreshTokenAsync(LoginResponseDto loginResponseDto)
+    {
+        try
+        {
+            var principal = tokenService.GetPrincipalFromExpiredToken(loginResponseDto.AccessToken);
+            var username = principal.Identity.Name;
+
+            //var tokenInfo = _context.TokenInfos.SingleOrDefault(u => u.Username == username);
+
+            //if (tokenInfo == null || tokenInfo.RefreshToken != tokenModel.RefreshToken || tokenInfo.ExpiredAt <= DateTime.UtcNow)
+            //{
+            //    return BadRequest("Invalid refresh token. Please login again.");
+            //}
+
+            var newAccessToken = tokenService.GenerateAccessToken(principal.Claims);
+            var newRefreshToken = tokenService.GenerateRefreshToken();
+
+            //tokenInfo.RefreshToken = newRefreshToken; // rotating the refresh token
+            //await _context.SaveChangesAsync();
+
+            return await Task.FromResult(Result.Ok(new LoginResponseDto
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            }));
+        }
+        catch (Exception ex)
+        {
+            return Result
+                    .Fail<LoginResponseDto>("Invalid refresh token. Please login again.")
                     .WithError(ex.Message);
         }
     }
