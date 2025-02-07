@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace netcoreTemplate.Infrastructure.Persistence.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20250206100247_AddedNamingConvention")]
+    partial class AddedNamingConvention
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -26,10 +29,6 @@ namespace netcoreTemplate.Infrastructure.Persistence.Identity.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER")
                         .HasColumnName("access_failed_count");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("age");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

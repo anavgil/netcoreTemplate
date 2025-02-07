@@ -1,13 +1,13 @@
-﻿using Infrastructure.Persistence.Identity.Model;
+﻿using Domain.Identity.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Identity;
 
-public class IdentityContext : IdentityDbContext<User>
+public class IdentityContext(DbContextOptions<IdentityContext> options) : IdentityDbContext<User>(options)
 {
-    public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
+        optionsBuilder.UseSnakeCaseNamingConvention();
     }
 }

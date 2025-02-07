@@ -27,7 +27,7 @@ public class ItemsEndpoint : IEndpoint
 
         RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/items")
                                     .WithApiVersionSet(apiVersionSet)
-                                    .WithTags("TestApi");
+                                    .WithTags("Items");
 
         group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
@@ -35,6 +35,7 @@ public class ItemsEndpoint : IEndpoint
 
             return TypedResults.Ok(result.Value);
         })
+        .RequireAuthorization()
         .WithDescription("Get all items")
         .WithSummary("Get all items")
         .MapToApiVersion(1);

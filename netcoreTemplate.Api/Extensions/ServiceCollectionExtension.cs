@@ -4,7 +4,6 @@ using Application;
 using Asp.Versioning;
 using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
-using Serilog;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading.RateLimiting;
@@ -24,7 +23,6 @@ public static class ServiceCollectionExtension
     /// <returns></returns>
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-        
 
         services.AddVersioning();
 

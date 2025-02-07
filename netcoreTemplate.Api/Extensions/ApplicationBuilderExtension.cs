@@ -36,10 +36,24 @@ public static class ApplicationBuilderExtension
                 webApp.MapScalarApiReference(option =>
                 {
                     option.Title = "API Reference";
-                    option.Theme = ScalarTheme.Mars ;
+                    option.Theme = ScalarTheme.Mars;
+                    option.WithHttpBearerAuthentication(jwt =>
+                    {
+                        jwt.Token = "";
+                    });
+
+                    option.Authentication = new ScalarAuthenticationOptions
+                    {
+                        PreferredSecurityScheme = "Bearer",
+                    };
                 });
             }
         }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         return app;
     }

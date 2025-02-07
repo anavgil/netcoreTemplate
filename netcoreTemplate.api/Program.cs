@@ -15,6 +15,5 @@ app.MapDefaultEndpoints(); //Aspire middleware
 // Configure the HTTP request pipeline.
 app.ConfigureApplicationBuilder();
 
-app.UseHttpsRedirection();
 
 app.Run();
