@@ -3,9 +3,7 @@ using Application.Users.Login;
 using Domain.Identity.Model;
 using FluentResults;
 using Infrastructure.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 

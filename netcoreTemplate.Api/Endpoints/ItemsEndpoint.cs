@@ -1,4 +1,5 @@
-﻿using Application.Items.Get;
+﻿using Api.Extensions;
+using Application.Items.Get;
 using Application.Items.GetById;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -33,15 +34,20 @@ public class ItemsEndpoint : IEndpoint
         {
             var result = await mediator.Send(new TestQueryRequestRequest(), ct);
 
-            return TypedResults.Ok(result.Value);
+            return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
+
         })
         .RequireAuthorization()
+        .Produces<IReadOnlyCollection<TestQueryDto>>()
         .WithDescription("Get all items")
         .WithSummary("Get all items")
         .MapToApiVersion(1);
 
 
-        group.MapGet("/{id}", GetResourceById)
+        group.MapGet("/{id:guid}", GetResourceById)
+                .Produces<IReadOnlyCollection<TestQueryDto>>()
+                .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+                .ProducesProblem(StatusCodes.Status404NotFound)
                 .WithDescription("Get a item by Id")
                 .WithSummary("Get a item by Id")
                 .MapToApiVersion(1);
@@ -53,6 +59,7 @@ public class ItemsEndpoint : IEndpoint
 
             return TypedResults.Ok(result.Value);
         })
+        .Produces<IReadOnlyCollection<TestQueryDto>>()
         .WithDescription("Get all items V2")
         .WithSummary("Get all items V2")
         .MapToApiVersion(2);
