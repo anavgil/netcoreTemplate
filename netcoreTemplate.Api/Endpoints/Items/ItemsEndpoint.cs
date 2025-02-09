@@ -4,15 +4,13 @@ using Application.Items.GetById;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Api.Endpoints;
+namespace Api.Endpoints.Items;
 
 /// <summary>
 /// 
 /// </summary>
-public class ItemsEndpoint : IEndpoint
+public class ItemsEndpoint //: IEndpoint
 {
     /// <summary>
     /// 
@@ -29,28 +27,28 @@ public class ItemsEndpoint : IEndpoint
 
         RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/items")
                                     .WithApiVersionSet(apiVersionSet)
-                                    .WithTags("Items");
+                                    .WithTags(Tags.Items);
 
         group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
-            var result = await mediator.Send(new TestQueryRequestRequest(), ct);
+            var result = await mediator.Send(new GetItemsQuery(), ct);
 
             return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
 
         })
         .RequireAuthorization()
-        .Produces<IReadOnlyCollection<TestQueryDto>>()
+        .Produces<IReadOnlyCollection<GetItemByIdQuery>>()
         .WithDescription("Get all items")
         .WithSummary("Get all items")
         .MapToApiVersion(1);
 
-        group.MapGet("/{id}", async (HttpContext _, string id, ISender mediator, CancellationToken ct) =>
+        group.MapGet("/{id:guid}", async (HttpContext _, Guid id, ISender mediator, CancellationToken ct) =>
         {
-            var request = new TestQueryParamRequestRequest(id.ToString());
+            var request = new GetItemByIdQuery(id);
             var result = await mediator.Send(request, ct);
             return result.Match(onSuccess: Results.Ok, onFailure: Results.BadRequest);
         })
-        .Produces<IReadOnlyCollection<TestQueryDto>>()
+        .Produces<IReadOnlyCollection<GetItemByIdQuery>>()
         .ProducesValidationProblem(StatusCodes.Status400BadRequest)
         //.ProducesProblem(StatusCodes.Status404NotFound)
         .WithDescription("Get a item by Id")
@@ -59,11 +57,11 @@ public class ItemsEndpoint : IEndpoint
 
         group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
-            var result = await mediator.Send(new TestQueryRequestRequest(), ct);
+            var result = await mediator.Send(new GetItemsQuery(), ct);
 
             return TypedResults.Ok(result.Value);
         })
-        .Produces<IReadOnlyCollection<TestQueryDto>>()
+        .Produces<IReadOnlyCollection<GetItemByIdQuery>>()
         .WithDescription("Get all items V2")
         .WithSummary("Get all items V2")
         .MapToApiVersion(2);

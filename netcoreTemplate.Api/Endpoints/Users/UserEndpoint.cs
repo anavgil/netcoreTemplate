@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Endpoints;
+namespace Api.Endpoints.Users;
 
 /// <summary>
 /// 
@@ -27,7 +27,7 @@ public class UserEndpoint : IEndpoint
         RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/user")
                                     .AllowAnonymous()
                                     .WithApiVersionSet(apiVersionSet)
-                                    .WithTags("Users");
+                                    .WithTags(Tags.Users);
 
         group.MapPost("/login", DoLogin);
 
