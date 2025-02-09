@@ -8,7 +8,7 @@ public class TestQueryParamRequestRequest(string id) : IRequest<IResult<IReadOnl
 {
     public string Id { get; private set; } = id;
 
-    public Guid ParsedId => Guid.Parse(Id);
+    //public Guid ParsedId => Guid.Parse(Id);
 }
 
 
@@ -16,6 +16,6 @@ public class TestQueryParamRequestHandler(IItemService service) : IRequestHandle
 {
     public async Task<IResult<IReadOnlyCollection<TestQueryDto>>> Handle(TestQueryParamRequestRequest request, CancellationToken cancellationToken)
     {
-        return await service.GetById(request.ParsedId);
+        return await service.GetById(Guid.Parse(request.Id));
     }
 }

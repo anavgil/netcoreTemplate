@@ -4,6 +4,7 @@ using Application.Items.GetById;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Endpoints;
@@ -43,15 +44,18 @@ public class ItemsEndpoint : IEndpoint
         .WithSummary("Get all items")
         .MapToApiVersion(1);
 
-
-        group.MapGet("/{id:guid}", GetResourceById)
-                .Produces<IReadOnlyCollection<TestQueryDto>>()
-                .ProducesValidationProblem(StatusCodes.Status400BadRequest)
-                .ProducesProblem(StatusCodes.Status404NotFound)
-                .WithDescription("Get a item by Id")
-                .WithSummary("Get a item by Id")
-                .MapToApiVersion(1);
-
+        group.MapGet("/{id}", async (HttpContext _, string id, ISender mediator, CancellationToken ct) =>
+        {
+            var request = new TestQueryParamRequestRequest(id.ToString());
+            var result = await mediator.Send(request, ct);
+            return result.Match(onSuccess: Results.Ok, onFailure: Results.BadRequest);
+        })
+        .Produces<IReadOnlyCollection<TestQueryDto>>()
+        .ProducesValidationProblem(StatusCodes.Status400BadRequest)
+        //.ProducesProblem(StatusCodes.Status404NotFound)
+        .WithDescription("Get a item by Id")
+        .WithSummary("Get a item by Id")
+        .MapToApiVersion(1);
 
         group.MapGet("", async (HttpContext _, ISender mediator, CancellationToken ct) =>
         {
@@ -64,21 +68,5 @@ public class ItemsEndpoint : IEndpoint
         .WithSummary("Get all items V2")
         .MapToApiVersion(2);
 
-
-        static async Task<Results<Ok<IReadOnlyCollection<TestQueryDto>>, ValidationProblem, NotFound>> GetResourceById(HttpContext _, string id, ISender mediator, CancellationToken ct)
-        {
-            var request = new TestQueryParamRequestRequest(id);
-            var result = await mediator.Send(request, ct);
-
-            if (result.IsSuccess)
-            {
-                return TypedResults.Ok(result.Value);
-            }
-            else
-            {
-                return TypedResults.NotFound();
-            }
-
-        }
     }
 }
