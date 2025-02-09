@@ -1,5 +1,4 @@
 ﻿using Application.Items.Dtos;
-using Application.Items.GetById;
 using FluentResults;
 
 namespace Application.Items.Service;

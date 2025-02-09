@@ -1,5 +1,4 @@
 ﻿using Api.Extensions;
-using Application.Items.Dtos;
 using Application.Items.Get;
 using Asp.Versioning;
 using Asp.Versioning.Builder;

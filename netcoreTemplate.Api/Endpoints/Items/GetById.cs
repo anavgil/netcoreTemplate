@@ -1,9 +1,9 @@
 ﻿
-using Application.Items.GetById;
-using Asp.Versioning.Builder;
-using Asp.Versioning;
-using MediatR;
 using Api.Extensions;
+using Application.Items.GetById;
+using Asp.Versioning;
+using Asp.Versioning.Builder;
+using MediatR;
 
 namespace Api.Endpoints.Items;
 
