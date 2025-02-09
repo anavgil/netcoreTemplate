@@ -4,6 +4,6 @@ using MediatR;
 
 namespace Application.Items.Get;
 
-public sealed record GetItemsQuery : IRequest<IResult<IReadOnlyCollection<ItemDto>>>
+public sealed record GetItemsQuery : IRequest<IResult<IReadOnlyCollection<ItemResponseDto>>>
 {
 }

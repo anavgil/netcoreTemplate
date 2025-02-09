@@ -1,6 +1,6 @@
 ﻿namespace Application.Items.Dtos;
 
-public sealed class ItemDto
+public sealed class ItemResponseDto
 {
     public Guid Id { get; set; }
 }

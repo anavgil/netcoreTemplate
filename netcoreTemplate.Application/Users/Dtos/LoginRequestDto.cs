@@ -1,3 +1,3 @@
-﻿namespace Application.Users.Login;
+﻿namespace Application.Users.Dtos;
 
 public record LoginRequestDto(string Username = "", string Password = "");

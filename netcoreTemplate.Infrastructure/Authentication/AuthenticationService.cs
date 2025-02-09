@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Application.Users.Login;
+using Application.Users.Dtos;
 using Domain.Identity.Model;
 using FluentResults;
 using Infrastructure.Authorization;

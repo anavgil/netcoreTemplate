@@ -5,8 +5,8 @@ namespace Application.Items.Service;
 
 public interface IItemService
 {
-    Task<IResult<IReadOnlyCollection<ItemDto>>> GetAll();
-    Task<IResult<IReadOnlyCollection<ItemDto>>> GetById(Guid id);
+    Task<IResult<IReadOnlyCollection<ItemResponseDto>>> GetAll();
+    Task<IResult<IReadOnlyCollection<ItemResponseDto>>> GetById(Guid id);
 
-    Task<IResult<IReadOnlyList<ItemDto>>> GetFiltered();
+    Task<IResult<IReadOnlyList<ItemResponseDto>>> GetFiltered();
 }

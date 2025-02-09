@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.Items.GetById;
 
-public sealed record GetItemByIdQuery(Guid Id) : IRequest<IResult<IReadOnlyCollection<ItemDto>>> { }
+public sealed record GetItemByIdQuery(Guid Id) : IRequest<IResult<IReadOnlyCollection<ItemResponseDto>>> { }

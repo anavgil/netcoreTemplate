@@ -5,10 +5,10 @@ using MediatR;
 
 namespace Application.Items.Get;
 
-public class TestQueryRequestHandler(IItemService service) : IRequestHandler<GetItemsQuery, IResult<IReadOnlyCollection<ItemDto>>>
+public class TestQueryRequestHandler(IItemService service) : IRequestHandler<GetItemsQuery, IResult<IReadOnlyCollection<ItemResponseDto>>>
 {
 
-    public async Task<IResult<IReadOnlyCollection<ItemDto>>> Handle(GetItemsQuery request, CancellationToken cancellationToken)
+    public async Task<IResult<IReadOnlyCollection<ItemResponseDto>>> Handle(GetItemsQuery request, CancellationToken cancellationToken)
     {
         return await service.GetAll();
     }

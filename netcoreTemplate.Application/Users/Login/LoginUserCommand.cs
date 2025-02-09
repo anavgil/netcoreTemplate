@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using Application.Users.Dtos;
+using FluentResults;
 using MediatR;
 
 namespace Application.Users.Login;

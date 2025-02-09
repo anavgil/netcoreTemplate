@@ -1,9 +1,9 @@
-﻿using Application.Users.Login;
+﻿
+using Application.Users.Dtos;
 using Application.Users.Register;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints.Users;
@@ -11,7 +11,7 @@ namespace Api.Endpoints.Users;
 /// <summary>
 /// 
 /// </summary>
-public class UserEndpoint : IEndpoint
+public class Register : IEndpoint
 {
     /// <summary>
     /// 
@@ -20,16 +20,14 @@ public class UserEndpoint : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         ApiVersionSet apiVersionSet = app.NewApiVersionSet()
-                                .HasApiVersion(new ApiVersion(1))
-                                .ReportApiVersions()
-                                .Build();
+                        .HasApiVersion(new ApiVersion(1))
+                        .ReportApiVersions()
+                        .Build();
 
-        RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/user")
+        RouteGroupBuilder group = app.MapGroup("v{version:apiVersion}/users")
                                     .AllowAnonymous()
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags(Tags.Users);
-
-        group.MapPost("/login", DoLogin);
 
         group.MapPost("/register", async ([FromBody] RegisterRequestDto request, ISender mediator, CancellationToken ct) =>
         {
@@ -37,21 +35,5 @@ public class UserEndpoint : IEndpoint
             return TypedResults.Ok(result.Value);
 
         });
-
-
-        static async Task<Results<Ok<LoginResponseDto>, NotFound>> DoLogin(HttpContext _, [FromBody] LoginRequestDto dto, ISender mediator, CancellationToken ct)
-        {
-            var result = await mediator.Send(new LoginUserCommand(dto), ct);
-
-            if (result.IsSuccess)
-            {
-                return TypedResults.Ok(result.Value);
-            }
-            else
-            {
-                return TypedResults.NotFound();
-            }
-
-        }
     }
 }
