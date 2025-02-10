@@ -11,17 +11,14 @@ public class ItemService(IUnitOfWork uow) : IItemService
     {
         var t = new Collection<ItemResponseDto>
         {
-            new(){ Id = Guid.NewGuid() }
+            new(){ Id = Guid.NewGuid()}
         };
         return await Task.FromResult(Result.Ok(t.AsReadOnly()));
     }
 
     public async Task<IResult<IReadOnlyCollection<ItemResponseDto>>> GetById(Guid id)
     {
-        ItemResponseDto item = new()
-        {
-            Id = id
-        };
+        ItemResponseDto item = new() { Id = id };
 
         return await Task.FromResult(Result.Ok(new Collection<ItemResponseDto>() { item }));
     }

@@ -1,4 +1,5 @@
-﻿using Application.Abstractions;
+﻿
+using Application.Abstractions;
 using Domain.Identity.Model;
 using Domain.Interfaces;
 using Infrastructure.Authentication;
@@ -6,7 +7,6 @@ using Infrastructure.Persistence.Identity;
 using Infrastructure.Repositories.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
