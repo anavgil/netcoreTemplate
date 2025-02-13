@@ -1,4 +1,5 @@
 using Api.Extensions;
+using Infrastructure;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,5 @@ app.MapDefaultEndpoints(); //Aspire middleware
 
 // Configure the HTTP request pipeline.
 app.ConfigureApplicationBuilder();
-
 
 app.Run();

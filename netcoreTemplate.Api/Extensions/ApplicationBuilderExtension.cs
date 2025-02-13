@@ -16,12 +16,11 @@ public static class ApplicationBuilderExtension
     /// <returns></returns>
     public static IApplicationBuilder ConfigureApplicationBuilder(this IApplicationBuilder app)
     {
+        app.UseExceptionHandler();
+        app.UseHttpsRedirection();
         app.UseSerilogRequestLogging();
 
         app.UseRateLimiter();
-        app.UseExceptionHandler();
-        app.UseRequestSecurity();
-
         // Returns the Problem Details response for (empty) non-successful responses
         app.UseStatusCodePages();
 
@@ -52,10 +51,10 @@ public static class ApplicationBuilderExtension
             }
         }
 
-        app.UseHttpsRedirection();
-
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseRequestSecurity();
 
         return app;
     }
