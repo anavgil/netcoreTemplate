@@ -61,7 +61,7 @@ namespace Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddApiKeyAuth(this IServiceCollection services)
+        private static IServiceCollection AddApiKeyAuth(this IServiceCollection services)
         {
             services.AddAuthentication(ApiKeySchemeOptions.Scheme)
                 .AddScheme<ApiKeySchemeOptions, ApiKeySchemeHandler>(
