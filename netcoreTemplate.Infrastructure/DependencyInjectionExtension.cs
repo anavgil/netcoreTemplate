@@ -3,6 +3,7 @@ using Application.Abstractions;
 using Domain.Identity.Model;
 using Domain.Interfaces;
 using Infrastructure.Authentication;
+using Infrastructure.Authentication.Apikey;
 using Infrastructure.Persistence.Identity;
 using Infrastructure.Repositories.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -56,6 +57,18 @@ namespace Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork<IdentityContext>>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ITokenService, TokenService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddApiKeyAuth(this IServiceCollection services)
+        {
+            services.AddAuthentication(ApiKeySchemeOptions.Scheme)
+                .AddScheme<ApiKeySchemeOptions, ApiKeySchemeHandler>(
+                    ApiKeySchemeOptions.Scheme, options =>
+                    {
+                        options.HeaderName = "X-API-KEY";
+                    });
 
             return services;
         }
