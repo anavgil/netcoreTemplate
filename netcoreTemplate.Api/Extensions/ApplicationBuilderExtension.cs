@@ -24,6 +24,8 @@ public static class ApplicationBuilderExtension
         // Returns the Problem Details response for (empty) non-successful responses
         app.UseStatusCodePages();
 
+        app.UseResponseCompression();
+
         if (app is WebApplication webApp)
         {
             if (webApp.Environment.IsDevelopment())

@@ -4,7 +4,9 @@ using Application;
 using Asp.Versioning;
 using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.ResponseCompression;
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Reflection;
 using System.Threading.RateLimiting;
 
@@ -33,6 +35,7 @@ public static class ServiceCollectionExtension
 
         services.AddOpenApi("v2");
 
+        services.AddResposeCompression();
 
         services.AddCors(options =>
         {
@@ -103,6 +106,29 @@ public static class ServiceCollectionExtension
             // Replace the placeholder with the actual version
             options.SubstituteApiVersionInUrl = true;
         });
+        return services;
+    }
+
+    private static IServiceCollection AddResposeCompression(this IServiceCollection services)
+    {
+        services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(["image/svg+xml"]);
+        });
+
+        services.Configure<BrotliCompressionProviderOptions>(options =>
+        {
+            options.Level = CompressionLevel.Optimal;
+        });
+
+        services.Configure<GzipCompressionProviderOptions>(options =>
+        {
+            options.Level = CompressionLevel.SmallestSize;
+        });
+
         return services;
     }
 }
