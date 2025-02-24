@@ -56,6 +56,7 @@ public static class ApplicationBuilderExtension
         app.UseAuthentication();
         app.UseAuthorization();
 
+        //Customs middleware
         app.UseRequestSecurity();
 
         return app;
