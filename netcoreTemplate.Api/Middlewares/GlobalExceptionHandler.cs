@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Middlewares;
+
 /// <summary>
-/// 
+///
 /// </summary>
 /// <param name="_logger"></param>
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
@@ -12,8 +13,9 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
     private const string validationExceptionTitle = "One or more validation errors occurred.";
     private const string validationExceptionType = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
     private const string standarExceptionTitle = "One error occurred.";
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="httpContext"></param>
     /// <param name="exception"></param>
@@ -64,7 +66,6 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
             .WriteAsJsonAsync(problemDetails, cancellationToken);
 
         return true;
-
     }
 
     private static int GetStatuscodeFromException(Exception exception)

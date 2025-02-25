@@ -8,7 +8,6 @@ namespace Api.Endpoints.Items;
 
 internal sealed class Get : IEndpoint
 {
-
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         ApiVersionSet apiVersionSet = app.NewApiVersionSet()
@@ -26,7 +25,6 @@ internal sealed class Get : IEndpoint
             var result = await mediator.Send(new GetItemsQuery(), ct);
 
             return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
-
         })
         //.RequireAuthorization()
         .WithDescription("Get all items")
@@ -38,7 +36,6 @@ internal sealed class Get : IEndpoint
             var result = await mediator.Send(new GetItemsQuery(), ct);
 
             return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
-
         })
         //.RequireAuthorization()
         .WithDescription("Get all itemsV2")

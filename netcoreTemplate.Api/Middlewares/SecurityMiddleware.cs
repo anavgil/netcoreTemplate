@@ -4,7 +4,7 @@ using Microsoft.Net.Http.Headers;
 namespace Api.Middlewares;
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <param name="next"></param>
 public class SecurityMiddleware(RequestDelegate next)
@@ -19,7 +19,7 @@ public class SecurityMiddleware(RequestDelegate next)
     };
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
@@ -44,18 +44,17 @@ public class SecurityMiddleware(RequestDelegate next)
         context.Response.Headers.Append("Content-Security-Policy-Report-Only",new StringValues(_cspPolicyCollection["default"]));
 #endif
 
-
         await _next(context);
     }
 }
 
 /// <summary>
-/// 
+///
 /// </summary>
 public static class SecurityMiddlewareExtension
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>

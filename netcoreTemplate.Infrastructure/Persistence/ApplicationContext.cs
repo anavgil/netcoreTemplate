@@ -5,4 +5,3 @@ namespace Infrastructure.Persistence;
 public class ApplicationContext : DbContext
 {
 }
-

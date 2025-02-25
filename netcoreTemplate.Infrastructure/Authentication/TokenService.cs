@@ -1,10 +1,10 @@
-﻿using Application.Abstractions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Application.Abstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Authentication;
 
@@ -40,12 +40,12 @@ public class TokenService(IConfiguration configuration) : ITokenService
         // Create a 32-byte array to hold cryptographically secure random bytes
         var randomNumber = new byte[32];
 
-        // Use a cryptographically secure random number generator 
+        // Use a cryptographically secure random number generator
         // to fill the byte array with random values
         using var randomNumberGenerator = RandomNumberGenerator.Create();
         randomNumberGenerator.GetBytes(randomNumber);
 
-        // Convert the random bytes to a base64 encoded string 
+        // Convert the random bytes to a base64 encoded string
         return Convert.ToBase64String(randomNumber);
     }
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Aspire.AppHost;
 
@@ -23,7 +23,6 @@ internal static class ResourceBuilderExtension
             {
                 var endpoint = builder.GetEndpoint("https");
                 var url = $"{endpoint.Url}/{openApiUIPath}";
-
 
                 Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
 

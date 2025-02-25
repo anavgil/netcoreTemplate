@@ -1,31 +1,30 @@
-﻿using Api.Endpoints;
+﻿using System.Diagnostics;
+using System.IO.Compression;
+using System.Reflection;
+using System.Threading.RateLimiting;
+using Api.Endpoints;
 using Api.Middlewares;
 using Application;
 using Asp.Versioning;
 using Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.ResponseCompression;
-using System.Diagnostics;
-using System.IO.Compression;
-using System.Reflection;
-using System.Threading.RateLimiting;
 
 namespace Api.Extensions;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public static class ServiceCollectionExtension
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="services"></param>
     /// <param name="configuration"></param>
     /// <returns></returns>
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-
         services.AddVersioning();
 
         services.AddOpenApi("v1", options =>
@@ -78,7 +77,6 @@ public static class ServiceCollectionExtension
 
                         Activity activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
                         context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
-
                     });
 
         services.AddEndpoints(Assembly.GetExecutingAssembly());

@@ -1,8 +1,8 @@
+using System.Reflection;
 using Application.Behaviors;
 using Application.Items.Service;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Application;
 
@@ -10,8 +10,6 @@ public static class DependencyInjectionExtension
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-
-
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());

@@ -4,13 +4,14 @@ using Scalar.AspNetCore;
 using Serilog;
 
 namespace Api.Extensions;
+
 /// <summary>
-/// 
+///
 /// </summary>
 public static class ApplicationBuilderExtension
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="app"></param>
     /// <returns></returns>

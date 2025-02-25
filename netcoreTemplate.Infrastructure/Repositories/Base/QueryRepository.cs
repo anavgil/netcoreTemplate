@@ -1,6 +1,6 @@
-﻿using Domain.Interfaces;
+﻿using System.Linq.Expressions;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories.Base;
 
@@ -18,6 +18,7 @@ public class QueryRepository<TEntity, TContext> : IQueryRepository<TEntity>
         DbSet = context.Set<TEntity>();
         _context = context;
     }
+
     public async Task<IReadOnlyList<TEntity>> GetAllAsync()
     {
         return await DbSet.AsNoTracking()
@@ -56,6 +57,4 @@ public class QueryRepository<TEntity, TContext> : IQueryRepository<TEntity>
     {
         return await DbSet.FindAsync(id).ConfigureAwait(false);
     }
-
-
 }

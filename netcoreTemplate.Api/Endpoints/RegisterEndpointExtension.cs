@@ -1,14 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Reflection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Api.Endpoints;
+
 /// <summary>
-/// 
+///
 /// </summary>
 public static class RegisterEndpointExtension
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="services"></param>
     /// <param name="assembly"></param>
@@ -27,7 +28,7 @@ public static class RegisterEndpointExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="app"></param>
     /// <param name="routeGroupBuilder"></param>

@@ -1,5 +1,4 @@
-﻿
-using Application.Users.Dtos;
+﻿using Application.Users.Dtos;
 using Application.Users.Register;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -9,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Endpoints.Users;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public class Register : IEndpoint
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="app"></param>
     public void MapEndpoint(IEndpointRouteBuilder app)
@@ -33,7 +32,6 @@ public class Register : IEndpoint
         {
             var result = await mediator.Send(new RegisterUserCommand(request), ct);
             return TypedResults.Ok(result.Value);
-
         });
     }
 }

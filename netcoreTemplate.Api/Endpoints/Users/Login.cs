@@ -1,5 +1,4 @@
-﻿
-using Application.Users.Dtos;
+﻿using Application.Users.Dtos;
 using Application.Users.Login;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -10,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Endpoints.Users;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public class Login : IEndpoint
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="app"></param>
     public void MapEndpoint(IEndpointRouteBuilder app)
@@ -45,6 +44,5 @@ public class Login : IEndpoint
         {
             return TypedResults.NotFound();
         }
-
     }
 }

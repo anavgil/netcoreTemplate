@@ -1,7 +1,7 @@
-﻿using Application.Items.Dtos;
+﻿using System.Collections.ObjectModel;
+using Application.Items.Dtos;
 using Domain.Interfaces;
 using FluentResults;
-using System.Collections.ObjectModel;
 
 namespace Application.Items.Service;
 

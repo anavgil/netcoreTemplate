@@ -1,4 +1,5 @@
-﻿
+﻿using System.Reflection;
+using System.Text;
 using Application.Abstractions;
 using Domain.Identity.Model;
 using Domain.Interfaces;
@@ -11,14 +12,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
-using System.Text;
 
 namespace Infrastructure
 {
     public static class DependencyInjectionExtension
     {
-
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSqlite<IdentityContext>(configuration.GetConnectionString("Default"), options =>
@@ -28,7 +26,6 @@ namespace Infrastructure
             .AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<IdentityContext>()
             .AddDefaultTokenProviders();
-
 
             services.AddAuthentication(options =>
             {

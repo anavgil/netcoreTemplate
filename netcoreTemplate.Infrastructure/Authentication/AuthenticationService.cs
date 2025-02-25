@@ -1,10 +1,10 @@
-﻿using Application.Abstractions;
+﻿using System.Security.Claims;
+using Application.Abstractions;
 using Application.Users.Dtos;
 using Domain.Identity.Model;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
 
 namespace Infrastructure.Authentication;
 
@@ -61,7 +61,7 @@ public class AuthenticationService(UserManager<User> userManager, ITokenService 
             List<Claim> authClaims = [
                     new (ClaimTypes.Name, userModel.UserName),
                     new (ClaimTypes.Email, userModel.Email),
-                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
+                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 // unique id for token
         ];
 

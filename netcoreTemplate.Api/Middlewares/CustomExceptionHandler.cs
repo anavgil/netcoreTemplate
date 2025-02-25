@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Middlewares;
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <param name="problemDetailsService"></param>
 /// <param name="_logger"></param>
@@ -16,7 +16,7 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
     private const string standarExceptionTitle = "One error occurred.";
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="httpContext"></param>
     /// <param name="exception"></param>
@@ -66,7 +66,6 @@ public class CustomExceptionHandler(IProblemDetailsService problemDetailsService
             HttpContext = httpContext,
             ProblemDetails = problemDetails
         });
-
     }
 
     private static int GetStatuscodeFromException(Exception exception) => exception switch

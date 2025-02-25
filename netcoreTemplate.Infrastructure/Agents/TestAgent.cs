@@ -15,7 +15,6 @@ public class TestAgent
 
         await httpClient.GetAsync("");
 
-
         await Task.CompletedTask;
     }
 }

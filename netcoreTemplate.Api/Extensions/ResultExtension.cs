@@ -3,12 +3,12 @@
 namespace Api.Extensions;
 
 /// <summary>
-/// 
+///
 /// </summary>
 public static class ResultExtension
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TOut"></typeparam>
     /// <param name="result"></param>
@@ -24,7 +24,7 @@ public static class ResultExtension
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TIn"></typeparam>
     /// <typeparam name="TOut"></typeparam>
