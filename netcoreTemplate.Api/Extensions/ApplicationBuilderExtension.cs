@@ -51,15 +51,18 @@ public static class ApplicationBuilderExtension
             }
         }
 
-        app.UseAuthentication();
-        app.UseAuthorization();
-
+        app.UseHttpsRedirection();
         //Customs middleware
         app.UseMiddleware<ValidationExceptionMiddleware>();
         app.UseRequestSecurity();
 
         // Returns the Problem Details response for (empty) non-successful responses
         app.UseStatusCodePages();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        
 
         return app;
     }
