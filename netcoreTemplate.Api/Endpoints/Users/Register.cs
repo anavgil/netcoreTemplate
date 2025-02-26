@@ -38,7 +38,6 @@ public class Register : IEndpoint
                 onFailure: (error) => Results.BadRequest(error.Errors));
         })
         .Produces(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status400BadRequest)
         .ProducesValidationProblem()
         ;
     }

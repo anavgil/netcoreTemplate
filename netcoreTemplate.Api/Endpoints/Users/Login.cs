@@ -32,7 +32,8 @@ public class Login : IEndpoint
 
         group.MapPost("/login", DoLogin)
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem();
     }
 
     private static async Task<Results<Ok<LoginResponseDto>, NotFound>> DoLogin(HttpContext _,
