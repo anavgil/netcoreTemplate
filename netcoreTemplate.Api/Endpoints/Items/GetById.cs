@@ -1,4 +1,5 @@
 ﻿using Api.Extensions;
+using Application.Items.Dtos;
 using Application.Items.GetById;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -23,11 +24,13 @@ internal sealed class GetById : IEndpoint
         {
             var request = new GetItemByIdQuery(id);
             var result = await mediator.Send(request, ct);
-            return result.Match(onSuccess: Results.Ok, onFailure: Results.BadRequest);
+
+            return result.Match(
+                onSuccess: (success) => Results.Ok(success),
+                onFailure: (error) => Results.NotFound());
         })
-        //.Produces<IReadOnlyCollection<TestQueryDto>>()
-        //.ProducesValidationProblem(StatusCodes.Status400BadRequest)
-        //.ProducesProblem(StatusCodes.Status404NotFound)
+        .Produces<IReadOnlyCollection<ItemResponseDto>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
         .WithDescription("Get a item by Id")
         .WithSummary("Get a item by Id");
     }

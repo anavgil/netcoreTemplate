@@ -1,4 +1,5 @@
-﻿using Application.Users.Dtos;
+﻿using Api.Extensions;
+using Application.Users.Dtos;
 using Application.Users.Login;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -29,20 +30,19 @@ public class Login : IEndpoint
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags(Tags.Users);
 
-        group.MapPost("/login", DoLogin);
+        group.MapPost("/login", DoLogin)
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
     }
 
-    private static async Task<Results<Ok<LoginResponseDto>, NotFound>> DoLogin(HttpContext _, [FromBody] LoginRequestDto dto, ISender mediator, CancellationToken ct)
+    private static async Task<Results<Ok<LoginResponseDto>, NotFound>> DoLogin(HttpContext _,
+                                                                                [FromBody] LoginRequestDto dto,
+                                                                                ISender mediator, CancellationToken ct)
     {
         var result = await mediator.Send(new LoginUserCommand(dto), ct);
 
-        if (result.IsSuccess)
-        {
-            return TypedResults.Ok(result.Value);
-        }
-        else
-        {
-            return TypedResults.NotFound();
-        }
+        return (Results<Ok<LoginResponseDto>, NotFound>)result.Match(
+                onSuccess: (success) => Results.Ok(success),
+                onFailure: (error) => Results.NotFound());
     }
 }

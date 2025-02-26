@@ -1,4 +1,5 @@
-﻿using Application.Users.Dtos;
+﻿using Api.Extensions;
+using Application.Users.Dtos;
 using Application.Users.Register;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -31,7 +32,14 @@ public class Register : IEndpoint
         group.MapPost("/register", async ([FromBody] RegisterRequestDto request, ISender mediator, CancellationToken ct) =>
         {
             var result = await mediator.Send(new RegisterUserCommand(request), ct);
-            return TypedResults.Ok(result.Value);
-        });
+
+            return result.Match(
+                onSuccess: (success) => Results.Ok(success),
+                onFailure: (error) => Results.BadRequest(error.Errors));
+        })
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest)
+        .ProducesValidationProblem()
+        ;
     }
 }

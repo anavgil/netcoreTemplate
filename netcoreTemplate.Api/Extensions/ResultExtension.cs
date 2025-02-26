@@ -20,7 +20,34 @@ public static class ResultExtension
         Func<TOut> onSuccess,
         Func<Result, TOut> onFailure)
     {
-        return result.IsSuccess ? onSuccess() : onFailure(result);
+        return result switch
+        {
+            { IsSuccess: true } => onSuccess(),
+            { IsFailed: true } => onFailure(result),
+            _ => throw new InvalidOperationException()
+        };
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <typeparam name="TIn"></typeparam>
+    /// <typeparam name="TOut"></typeparam>
+    /// <param name="result"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onFailure"></param>
+    /// <returns></returns>
+    public static TOut Match<TIn, TOut>(
+    this Result<TIn> result,
+    Func<TIn, TOut> onSuccess,
+    Func<Result<TIn>, TOut> onFailure)
+    {
+        return result switch
+        {
+            { IsSuccess: true } => onSuccess(result.Value),
+            { IsFailed: true } => onFailure(result),
+            _ => throw new InvalidOperationException()
+        };
     }
 
     /// <summary>
@@ -37,6 +64,11 @@ public static class ResultExtension
         Func<TIn, TOut> onSuccess,
         Func<IResult<TIn>, TOut> onFailure)
     {
-        return result.IsSuccess ? onSuccess(result.Value) : onFailure(result);
+        return result switch
+        {
+            { IsSuccess: true } => onSuccess(result.Value),
+            { IsFailed: true } => onFailure(result),
+            _ => throw new InvalidOperationException()
+        };
     }
 }

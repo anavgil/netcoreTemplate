@@ -1,4 +1,5 @@
 ﻿using Api.Extensions;
+using Application.Items.Dtos;
 using Application.Items.Get;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -38,6 +39,8 @@ internal sealed class Get : IEndpoint
             return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
         })
         //.RequireAuthorization()
+        .Produces<IReadOnlyCollection<ItemResponseDto>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
         .WithDescription("Get all itemsV2")
         .WithSummary("Get all itemsV2")
         .MapToApiVersion(2);
