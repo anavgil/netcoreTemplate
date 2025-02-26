@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +9,11 @@ namespace Api.Middlewares;
 /// <summary>
 ///
 /// </summary>
+/// <param name="problemDetailsService"></param>
 /// <param name="_logger"></param>
-public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
+public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
 {
-    private const string validationExceptionTitle = "One or more validation errors occurred.";
-    private const string validationExceptionType = "https://tools.ietf.org/html/rfc7231#section-6.5.1";
-    private const string standarExceptionTitle = "One error occurred.";
+    private const string StandarExceptionTitle = "One error occurred.";
 
     /// <summary>
     ///
@@ -26,7 +27,6 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
         var exceptionMessage = exception.Message;
         var problemDetails = new ProblemDetails()
         {
-            Instance = httpContext.Request.Path,
             Status = GetStatuscodeFromException(exception),
             Detail = exception.Message,
         };
@@ -34,47 +34,30 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
         _logger.LogError(exception,
             "Error Message: {}, Time  of occurrence {time}", exceptionMessage, DateTime.UtcNow);
 
-        if (exception is ValidationException fluentException)
-        {
-            problemDetails.Title = validationExceptionTitle;
-            problemDetails.Type = validationExceptionType;
-            List<string> validationErrors = [];
-            foreach (var error in fluentException.Errors)
-            {
-                validationErrors.Add(error.ErrorMessage);
-            }
-            problemDetails.Extensions.Add("errors", validationErrors);
-        }
-        else
-        {
-            problemDetails.Title = standarExceptionTitle;
-            problemDetails.Type = exception.GetType().Name;
+        problemDetails.Title = StandarExceptionTitle;
+        problemDetails.Type = exception.GetType().Name;
 
-            if (exception.InnerException is not null)
-            {
-                problemDetails.Extensions = new Dictionary<string, object>()
+        if (exception.InnerException is not null)
+        {
+            problemDetails.Extensions = new Dictionary<string, object>()
             {
                 { "INNER-Message",exception.InnerException.Message },
                 { "INNER-Type",exception.InnerException.GetType().Name}
             };
-            }
         }
 
-        httpContext.Response.StatusCode = problemDetails.Status.Value;
-
-        await httpContext.Response
-            .WriteAsJsonAsync(problemDetails, cancellationToken);
-
-        return true;
-    }
-
-    private static int GetStatuscodeFromException(Exception exception)
-    {
-        return exception switch
+        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
-            BadHttpRequestException => StatusCodes.Status400BadRequest,
-            ValidationException => StatusCodes.Status400BadRequest,
-            _ => StatusCodes.Status500InternalServerError
-        };
+            Exception = exception,
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails
+        });
     }
+
+    private static int GetStatuscodeFromException(Exception exception) => exception switch
+    {
+        ArgumentException => StatusCodes.Status400BadRequest,
+        BadHttpRequestException => StatusCodes.Status400BadRequest,
+        _ => StatusCodes.Status500InternalServerError
+    };
 }

@@ -22,9 +22,6 @@ public static class ApplicationBuilderExtension
         app.UseSerilogRequestLogging();
 
         app.UseRateLimiter();
-        // Returns the Problem Details response for (empty) non-successful responses
-        app.UseStatusCodePages();
-
         app.UseResponseCompression();
 
         if (app is WebApplication webApp)
@@ -58,7 +55,11 @@ public static class ApplicationBuilderExtension
         app.UseAuthorization();
 
         //Customs middleware
+        app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
         app.UseRequestSecurity();
+
+        // Returns the Problem Details response for (empty) non-successful responses
+        app.UseStatusCodePages();
 
         return app;
     }
