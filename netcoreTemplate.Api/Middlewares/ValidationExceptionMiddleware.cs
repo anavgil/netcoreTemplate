@@ -11,7 +11,7 @@ namespace Api.Middlewares;
 /// 
 /// </summary>
 /// <param name="next"></param>
-public sealed class ValidationExceptionHandlingMiddleware(RequestDelegate next)
+public sealed class ValidationExceptionMiddleware(RequestDelegate next)
 {
     /// <summary>
     /// 

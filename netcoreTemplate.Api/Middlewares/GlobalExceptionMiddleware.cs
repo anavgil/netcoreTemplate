@@ -11,7 +11,7 @@ namespace Api.Middlewares;
 /// </summary>
 /// <param name="problemDetailsService"></param>
 /// <param name="_logger"></param>
-public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionHandler> _logger) : IExceptionHandler
+public sealed class GlobalExceptionMiddleware(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionMiddleware> _logger) : IExceptionHandler
 {
     private const string StandarExceptionTitle = "One error occurred.";
 

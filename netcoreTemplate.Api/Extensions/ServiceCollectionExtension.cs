@@ -66,7 +66,7 @@ public static class ServiceCollectionExtension
         });
 
         //builder.Services.RegisterJwtAuthentication(builder.Configuration);
-        services.AddExceptionHandler<GlobalExceptionHandler>()
+        services.AddExceptionHandler<GlobalExceptionMiddleware>()
                 .AddProblemDetails(options =>
                     options.CustomizeProblemDetails = context =>
                     {

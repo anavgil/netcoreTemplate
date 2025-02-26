@@ -55,7 +55,7 @@ public static class ApplicationBuilderExtension
         app.UseAuthorization();
 
         //Customs middleware
-        app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
+        app.UseMiddleware<ValidationExceptionMiddleware>();
         app.UseRequestSecurity();
 
         // Returns the Problem Details response for (empty) non-successful responses
