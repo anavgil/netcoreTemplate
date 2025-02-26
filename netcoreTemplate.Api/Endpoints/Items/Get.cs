@@ -25,9 +25,12 @@ internal sealed class Get : IEndpoint
         {
             var result = await mediator.Send(new GetItemsQuery(), ct);
 
-            return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
+            return result.Match(
+                onSuccess: (success) => Results.Ok(success),
+                onFailure: Results.NotFound);
         })
         //.RequireAuthorization()
+        .Produces<IReadOnlyCollection<ItemResponseDto>>(StatusCodes.Status200OK)
         .WithDescription("Get all items")
         .WithSummary("Get all items")
         .MapToApiVersion(1);
@@ -36,11 +39,13 @@ internal sealed class Get : IEndpoint
         {
             var result = await mediator.Send(new GetItemsQuery(), ct);
 
-            return result.Match(onSuccess: Results.Ok, onFailure: Results.NotFound);
+            return result.Match(
+                onSuccess: (success) => Results.Ok(success),
+                onFailure: Results.NotFound);
         })
         //.RequireAuthorization()
         .Produces<IReadOnlyCollection<ItemResponseDto>>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound)
+        //.Produces(StatusCodes.Status404NotFound)
         .WithDescription("Get all itemsV2")
         .WithSummary("Get all itemsV2")
         .MapToApiVersion(2);
