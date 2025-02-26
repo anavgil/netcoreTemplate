@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Api.Extensions;
+using Aspire.ServiceDefaults;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
