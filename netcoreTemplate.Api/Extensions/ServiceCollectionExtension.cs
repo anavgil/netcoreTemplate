@@ -27,13 +27,6 @@ public static class ServiceCollectionExtension
     {
         services.AddVersioning();
 
-        services.AddOpenApi("v1", options =>
-        {
-            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
-        });
-
-        services.AddOpenApi("v2");
-
         services.AddResposeCompression();
 
         services.AddCors(options =>
@@ -47,23 +40,69 @@ public static class ServiceCollectionExtension
             });
         });
 
-        services.AddRateLimiter(options =>
-        {
-            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-            options.OnRejected = async (context, token) =>
-            {
-                await context.HttpContext.Response.WriteAsync("Too many request, try it later", cancellationToken: token);
-            };
-            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-                RateLimitPartition.GetConcurrencyLimiter(
-                    partitionKey: "aqui el identificador",
-                    factory: _ => new ConcurrencyLimiterOptions()
+        services.AddRateLimiter();
+
+        //builder.Services.RegisterJwtAuthentication(builder.Configuration);
+        services.AddExceptionHandler<GlobalExceptionMiddleware>()
+                .AddProblemDetails(options =>
+                    options.CustomizeProblemDetails = context =>
                     {
-                        PermitLimit = 10,
-                        QueueLimit = 0,
-                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst
-                    }));
-        });
+                        context.ProblemDetails.Instance =
+                            $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+
+                        context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+
+                        Activity activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+                        context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+                    });
+
+        services.AddEndpoints(Assembly.GetExecutingAssembly());
+
+        services.AddApplicationServices();
+        services.AddInfrastructureServices(configuration);
+
+        return services;
+    }
+
+
+    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration, Action<ConfigurationBuilder> builder)
+    {
+        ConfigurationBuilder settings = new();
+
+        builder?.Invoke(settings);
+
+        services.AddApiServices(configuration, settings);
+
+        return services;
+    }
+
+    private static IServiceCollection AddApiServices(this IServiceCollection services,IConfiguration configuration,ConfigurationBuilder settings)
+    {
+
+        if (settings.UseApiVersioning)
+            services.AddVersioning();
+
+        //if (settings.UseHealthChecks)
+        //    services.AddHealthChecks();
+
+        if (settings.UseResponseCompression)
+            services.AddResposeCompression();
+
+        if (settings.UseRateLimit)
+            services.AddRateLimiter();
+
+        if(settings.UseCors)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "develop", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+        }
 
         //builder.Services.RegisterJwtAuthentication(builder.Configuration);
         services.AddExceptionHandler<GlobalExceptionMiddleware>()
@@ -104,6 +143,14 @@ public static class ServiceCollectionExtension
             // Replace the placeholder with the actual version
             options.SubstituteApiVersionInUrl = true;
         });
+
+        services.AddOpenApi("v1", options =>
+        {
+            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+        });
+
+        services.AddOpenApi("v2");
+
         return services;
     }
 
@@ -125,6 +172,29 @@ public static class ServiceCollectionExtension
         services.Configure<GzipCompressionProviderOptions>(options =>
         {
             options.Level = CompressionLevel.SmallestSize;
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddRateLimiter(this IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            options.OnRejected = async (context, token) =>
+            {
+                await context.HttpContext.Response.WriteAsync("Too many request, try it later", cancellationToken: token);
+            };
+            options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+                RateLimitPartition.GetConcurrencyLimiter(
+                    partitionKey: "aqui el identificador",
+                    factory: _ => new ConcurrencyLimiterOptions()
+                    {
+                        PermitLimit = 10,
+                        QueueLimit = 0,
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+                    }));
         });
 
         return services;
