@@ -5,6 +5,7 @@ using Domain.Identity.Model;
 using Domain.Interfaces;
 using Infrastructure.Authentication;
 using Infrastructure.Authentication.Apikey;
+using Infrastructure.Authorization;
 using Infrastructure.Persistence.Identity;
 using Infrastructure.Repositories.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,7 +49,15 @@ namespace Infrastructure
                 };
             });
 
-            services.AddAuthorizationBuilder();
+            services.AddAuthorizationBuilder()
+                .AddPolicy(Claims.Full,policy => {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim(Claims.Full);
+                })
+                .AddPolicy(Claims.Level2, policy => {
+                    policy.RequireRole("Admin");
+                    policy.RequireClaim(Claims.Level2);
+                });
 
             services.AddHttpClient();
             services.AddScoped<IUnitOfWork, UnitOfWork<IdentityContext>>();

@@ -4,6 +4,7 @@ using Application.Users.Login;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,20 +31,16 @@ public class Login : IEndpoint
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags(Tags.Users);
 
-        group.MapPost("/login", DoLogin)
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound)
-            .ProducesValidationProblem();
-    }
+        group.MapPost("/login", async (HttpContext _,[FromBody] LoginRequestDto dto,ISender mediator, CancellationToken ct) =>
+        {
+            var result = await mediator.Send(new LoginUserCommand(dto), ct);
 
-    private static async Task<Results<Ok<LoginResponseDto>, NotFound>> DoLogin(HttpContext _,
-                                                                                [FromBody] LoginRequestDto dto,
-                                                                                ISender mediator, CancellationToken ct)
-    {
-        var result = await mediator.Send(new LoginUserCommand(dto), ct);
-
-        return (Results<Ok<LoginResponseDto>, NotFound>)result.Match(
-                onSuccess: (success) => Results.Ok(success),
-                onFailure: (error) => Results.NotFound());
+            return result.Match(
+                    onSuccess: (success) => Results.Ok(success),
+                    onFailure: (error) => Results.NotFound());
+        })
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
+        .ProducesValidationProblem();
     }
 }

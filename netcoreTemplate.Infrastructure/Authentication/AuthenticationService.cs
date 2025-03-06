@@ -1,35 +1,42 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.ObjectModel;
+using System.Security.Claims;
 using Application.Abstractions;
 using Application.Users.Dtos;
 using Domain.Identity.Model;
 using FluentResults;
+using Infrastructure.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Infrastructure.Authentication;
 
-public class AuthenticationService(UserManager<User> userManager, ITokenService tokenService) : IAuthenticationService
+public class AuthenticationService(SignInManager<User> signInManager, ITokenService tokenService) : IAuthenticationService
 {
     public async Task<IResult<string>> CreateUserAsync(string name, string surname, string user, string pass, string email)
     {
+        Collection<Claim> claimCollection = [];
         try
         {
-            var identityResult = await userManager.CreateAsync(new User { UserName = user, FirstName = name, LastName = surname, Email = email }, pass);
+            var identityResult = await signInManager.UserManager.CreateAsync(new User { UserName = user, FirstName = name, LastName = surname, Email = email }, pass);
 
-            if (identityResult.Succeeded)
+            if (!identityResult.Succeeded)
             {
                 Result.Fail<string>("User creation failed")
                     .WithError(identityResult.Errors.Select(e => e.Description).FirstOrDefault());
             }
 
-            var userEntity = await userManager.FindByNameAsync(user);
+            claimCollection.Add(new Claim(Claims.Full, Claims.Full));
+            claimCollection.Add(new Claim(ClaimTypes.Country, "SPAIN"));
 
-            var roleResult = await userManager.AddToRoleAsync(userEntity, "Admin");
+            var userEntity = await signInManager.UserManager.FindByNameAsync(user);
+            var roleTask = signInManager.UserManager.AddToRoleAsync(userEntity, Roles.Admin);
+            var claimTask = signInManager.UserManager.AddClaimsAsync(userEntity, claimCollection);
+            var result = await Task.WhenAll(roleTask, claimTask);
 
-            return roleResult.Succeeded ?
+            return result.All(r => r.Succeeded) ?
                     Result.Ok<string>(userEntity.Id) :
-                    Result.Fail<string>("User role creation failed")
-                .WithError(roleResult.Errors.Select(e => e.Description).FirstOrDefault());
+                    Result.Fail<string>("User role/claims creation failed")
+                .WithError(result.Where(x=> !x.Succeeded).Select(x=> x.Errors).Select(e => e.FirstOrDefault().Description).FirstOrDefault());
         }
         catch (Exception ex)
         {
@@ -44,28 +51,27 @@ public class AuthenticationService(UserManager<User> userManager, ITokenService 
     {
         try
         {
-            var userModel = await userManager.FindByNameAsync(user);
-            if (userModel == null)
+            var loginResult = await signInManager.PasswordSignInAsync(user, pass, true, false);
+            if (!loginResult.Succeeded)
             {
-                return Result.Fail<LoginResponseDto>("User not exist");
-            }
-            bool isValidPassword = await userManager.CheckPasswordAsync(userModel, pass);
-            if (isValidPassword == false)
-            {
-                //return Unauthorized();
-
                 return Result.Fail<LoginResponseDto>("Unauthorized Access");
             }
 
+            var userModel = await signInManager.UserManager.FindByNameAsync(user);
+
             // creating the necessary claims
             List<Claim> authClaims = [
-                    new (ClaimTypes.Name, userModel.UserName),
+                    new (ClaimTypes.Name, userModel.FirstName),
+                    new (ClaimTypes.Surname, userModel.LastName),
                     new (ClaimTypes.Email, userModel.Email),
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 // unique id for token
         ];
 
-            var userRoles = await userManager.GetRolesAsync(userModel);
+            var userRolesTask = signInManager.UserManager.GetRolesAsync(userModel);
+            var userClaimsTask = signInManager.UserManager.GetClaimsAsync(userModel);
+
+            var (userRoles, userClaims) = await TaskExtension.WhenAllExt(userRolesTask,userClaimsTask);
 
             // adding roles to the claims. So that we can get the user role from the token.
             foreach (var userRole in userRoles)
@@ -73,11 +79,15 @@ public class AuthenticationService(UserManager<User> userManager, ITokenService 
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
+            if(userClaims.Any())
+                authClaims.AddRange(userClaims);
+
             // generating access token
             var token = tokenService.GenerateAccessToken(authClaims);
 
             string refreshToken = tokenService.GenerateRefreshToken();
 
+            
             ////save refreshToken with exp date in the database
             //var tokenInfo = _context.TokenInfos.
             //            FirstOrDefault(a => a.Username == user.UserName);
