@@ -21,6 +21,7 @@
     <ProjectReference Include="..\netcoreTemplate.Domain\Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extensions\" />
     <Folder Include="Users\Service\" />
   </ItemGroup>
 </Project>
