@@ -37,7 +37,7 @@ public class Login : IEndpoint
 
             return result.Match(
                     onSuccess: (success) => Results.Ok(success),
-                    onFailure: (error) => Results.NotFound());
+                    onFailure: (error) => Results.Unauthorized());
         })
         .Produces(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)

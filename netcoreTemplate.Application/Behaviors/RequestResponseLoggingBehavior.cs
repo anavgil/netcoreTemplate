@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -12,18 +13,31 @@ public sealed class RequestResponseLoggingBehavior<TRequest, TResponse>(ILogger<
     {
         var correlationId = Guid.NewGuid();
 
+        var t = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+
         // Request Logging
         // Serialize the request
-        var requestJson = JsonSerializer.Serialize(request);
+        var requestJson = JsonSerializer.Serialize(request,t);
         // Log the serialized request
         logger.LogInformation("Handling request {CorrelationID}: {Request}", correlationId, requestJson);
 
         // Response logging
         var response = await next();
         // Serialize the request
-        var responseJson = JsonSerializer.Serialize(response);
-        // Log the serialized request
-        logger.LogInformation("Response for {Correlation}: {Response}", correlationId, responseJson);
+        try
+        {
+            var responseJson = JsonSerializer.Serialize(response, t);
+
+            // Log the serialized request
+            logger.LogInformation("Response for {Correlation}: {Response}", correlationId, responseJson);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error serializing response for {Correlation}",correlationId);
+        }
 
         // Return response
         return response;
