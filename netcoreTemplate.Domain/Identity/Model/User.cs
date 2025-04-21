@@ -7,4 +7,5 @@ public class User : IdentityUser
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public int Age { get; set; } = default!;
+    public string Address { get; set; } = default!;
 }
