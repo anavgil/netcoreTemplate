@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Aspire.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
