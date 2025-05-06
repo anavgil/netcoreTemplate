@@ -79,26 +79,28 @@ public static class ApplicationBuilderExtension
 
     private static IApplicationBuilder ConfigureApplicationBuilder(this IApplicationBuilder app,ConfigurationBuilder builder)
     {
-        app.UseExceptionHandler();
-        app.UseHttpsRedirection();
         app.UseSerilogRequestLogging();
 
-        if(builder.UseRateLimit)
+        app.UseExceptionHandler();
+
+        if (builder.UseRateLimit)
             app.UseRateLimiter();
+
+        app.UseHttpsRedirection();
 
         if (builder.UseResponseCompression)
             app.UseResponseCompression();
 
+        // Returns the Problem Details response for (empty) non-successful responses
+        app.UseStatusCodePages();
+
         if (app is WebApplication webApp)
         {
+            webApp.MapEndpoints();
+            webApp.MapOpenApi();
+
             if (webApp.Environment.IsDevelopment())
             {
-                if (builder.UseCors)
-                    app.UseCors("develop");
-
-                webApp.MapEndpoints();
-                webApp.MapOpenApi();
-
                 webApp.MapScalarApiReference(option =>
                 {
                     option.Title = "API Reference";
@@ -118,17 +120,16 @@ public static class ApplicationBuilderExtension
             }
         }
 
-        app.UseHttpsRedirection();
-        //Customs middleware
-        app.UseMiddleware<ValidationExceptionMiddleware>();
-        app.UseRequestSecurity();
+        app.UseRouting();
 
-        // Returns the Problem Details response for (empty) non-successful responses
-        app.UseStatusCodePages();
+        if (builder.UseCors)
+            app.UseCors("develop");
 
         app.UseAuthentication();
         app.UseAuthorization();
 
+        //Customs middleware
+        app.UseMiddleware<ValidationExceptionMiddleware>();
 
         return app;
     }

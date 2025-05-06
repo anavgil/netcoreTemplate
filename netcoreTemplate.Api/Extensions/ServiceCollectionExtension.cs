@@ -25,10 +25,6 @@ public static class ServiceCollectionExtension
     /// <returns></returns>
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddVersioning();
-
-        services.AddResposeCompression();
-
         services.AddCors(options =>
         {
             options.AddPolicy(name: "develop", builder =>
@@ -39,6 +35,10 @@ public static class ServiceCollectionExtension
                     .AllowAnyMethod();
             });
         });
+
+        services.AddVersioning();
+
+        services.AddResposeCompression();
 
         services.AddRateLimiter();
 
