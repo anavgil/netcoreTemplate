@@ -20,7 +20,6 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.addCon
             services.AddSqlite<IdentityContext>(configuration.GetConnectionString("Default"), options =>
             {
                 options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
