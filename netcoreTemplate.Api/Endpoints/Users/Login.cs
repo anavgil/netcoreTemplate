@@ -1,11 +1,12 @@
-﻿using Api.Extensions;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using Api.Extensions;
 using Application.Users.Dtos;
 using Application.Users.Login;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Endpoints.Users;
@@ -31,7 +32,7 @@ public class Login : IEndpoint
                                     .WithApiVersionSet(apiVersionSet)
                                     .WithTags(Tags.Users);
 
-        group.MapPost("/login", async (HttpContext _,[FromBody] LoginRequestDto dto,ISender mediator, CancellationToken ct) =>
+        group.MapPost("/login", async (HttpContext _, [FromBody] LoginRequestDto dto, ISender mediator, CancellationToken ct) =>
         {
             var result = await mediator.Send(new LoginUserCommand(dto), ct);
 
